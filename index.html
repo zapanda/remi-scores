@@ -34,7 +34,6 @@
     padding: 0 0 60px 0;
   }
 
-  /* HEADER */
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -61,7 +60,6 @@
     text-transform: uppercase;
   }
 
-  /* LAYOUT */
   .container {
     max-width: 860px;
     margin: 0 auto;
@@ -71,7 +69,6 @@
     gap: 32px;
   }
 
-  /* CARDS */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -87,50 +84,164 @@
     margin-bottom: 20px;
   }
 
-  /* TOTALS */
-  .totals-grid {
+  /* RANKINGS */
+  .ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ranking-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    border-left: 4px solid var(--border);
+    transition: transform 0.15s;
+  }
+
+  .ranking-row:hover { transform: translateX(3px); }
+  .ranking-row.ana    { border-left-color: var(--ana); }
+  .ranking-row.cezi   { border-left-color: var(--cezi); }
+  .ranking-row.bogdan { border-left-color: var(--bogdan); }
+  .ranking-row.mihai  { border-left-color: var(--mihai); }
+
+  .ranking-pos {
+    font-size: 1.4rem;
+    width: 32px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .ranking-name {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .ranking-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .ranking-row.ana    .ranking-score { color: var(--ana); }
+  .ranking-row.cezi   .ranking-score { color: var(--cezi); }
+  .ranking-row.bogdan .ranking-score { color: var(--bogdan); }
+  .ranking-row.mihai  .ranking-score { color: var(--mihai); }
+
+  .ranking-diff {
+    font-size: 0.82rem;
+    color: var(--accent2);
+    min-width: 80px;
+    text-align: right;
+    font-weight: 500;
+  }
+
+  /* VIBES */
+  .vibes-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
   @media (min-width: 500px) {
-    .totals-grid { grid-template-columns: repeat(4, 1fr); }
+    .vibes-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
-  .total-card {
+  .vibe-card {
     background: var(--surface2);
     border-radius: 10px;
     padding: 16px 14px;
     text-align: center;
     border-top: 3px solid var(--border);
+    position: relative;
+    overflow: hidden;
     transition: transform 0.15s;
   }
 
-  .total-card:hover { transform: translateY(-2px); }
-  .total-card.ana { border-top-color: var(--ana); }
-  .total-card.cezi { border-top-color: var(--cezi); }
-  .total-card.bogdan { border-top-color: var(--bogdan); }
-  .total-card.mihai { border-top-color: var(--mihai); }
+  .vibe-card:hover { transform: translateY(-2px); }
+  .vibe-card.ana    { border-top-color: var(--ana); }
+  .vibe-card.cezi   { border-top-color: var(--cezi); }
+  .vibe-card.bogdan { border-top-color: var(--bogdan); }
+  .vibe-card.mihai  { border-top-color: var(--mihai); }
 
-  .total-name {
-    font-size: 0.72rem;
+  .vibe-card.on-fire {
+    background: linear-gradient(160deg, #2a1a0a 0%, var(--surface2) 60%);
+    border-top-color: #ff7c2a !important;
+    box-shadow: 0 0 18px #ff7c2a22;
+  }
+
+  .vibe-card.frozen {
+    background: linear-gradient(160deg, #0a1a2a 0%, var(--surface2) 60%);
+    border-top-color: #6ec6f5 !important;
+    box-shadow: 0 0 18px #6ec6f522;
+  }
+
+  .vibe-name {
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     color: var(--muted);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
-  .total-score {
+  .vibe-badge {
+    font-size: 1.8rem;
+    line-height: 1;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .vibe-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+    min-height: 14px;
+  }
+
+  .vibe-card.on-fire .vibe-label { color: #ff7c2a; }
+  .vibe-card.frozen  .vibe-label { color: #6ec6f5; }
+
+  .vibe-avg {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
+    font-size: 1.3rem;
     letter-spacing: 1px;
   }
 
-  .total-card.ana .total-score { color: var(--ana); }
-  .total-card.cezi .total-score { color: var(--cezi); }
-  .total-card.bogdan .total-score { color: var(--bogdan); }
-  .total-card.mihai .total-score { color: var(--mihai); }
+  .vibe-card.ana    .vibe-avg { color: var(--ana); }
+  .vibe-card.cezi   .vibe-avg { color: var(--cezi); }
+  .vibe-card.bogdan .vibe-avg { color: var(--bogdan); }
+  .vibe-card.mihai  .vibe-avg { color: var(--mihai); }
+
+  .vibe-avg-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .vibe-streak {
+    margin-top: 8px;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .vibe-streak strong { color: var(--text); }
+
+  /* CHART */
+  .chart-wrap {
+    position: relative;
+    height: 320px;
+  }
 
   /* FORM */
   .form-grid {
@@ -169,10 +280,10 @@
   .field input::-webkit-outer-spin-button,
   .field input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-  .field.ana input:focus { border-color: var(--ana); }
-  .field.cezi input:focus { border-color: var(--cezi); }
+  .field.ana    input:focus { border-color: var(--ana); }
+  .field.cezi   input:focus { border-color: var(--cezi); }
   .field.bogdan input:focus { border-color: var(--bogdan); }
-  .field.mihai input:focus { border-color: var(--mihai); }
+  .field.mihai  input:focus { border-color: var(--mihai); }
 
   .submit-row {
     margin-top: 20px;
@@ -199,24 +310,12 @@
   button.submit:active { transform: translateY(0); }
   button.submit:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .status-msg {
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  .status-msg.ok { color: #6fcf97; }
+  .status-msg { font-size: 0.85rem; color: var(--muted); }
+  .status-msg.ok  { color: #6fcf97; }
   .status-msg.err { color: var(--accent2); }
 
-  /* CHART */
-  .chart-wrap {
-    position: relative;
-    height: 320px;
-  }
-
   /* HISTORY TABLE */
-  .table-wrap {
-    overflow-x: auto;
-  }
+  .table-wrap { overflow-x: auto; }
 
   table {
     width: 100%;
@@ -241,17 +340,21 @@
 
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: var(--surface2); }
-
-  tbody td {
-    padding: 11px 12px;
-    color: var(--text);
-  }
-
-  tbody td.pos { color: #6fcf97; }
-  tbody td.neg { color: var(--accent2); }
+  tbody td { padding: 11px 12px; color: var(--text); }
+  tbody td.pos  { color: #6fcf97; }
+  tbody td.neg  { color: var(--accent2); }
   tbody td.zero { color: var(--muted); }
 
-  /* LOADING */
+  tr.totals-row td {
+    padding: 12px 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    background: var(--surface2);
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border) !important;
+  }
+
   .loading {
     text-align: center;
     color: var(--muted);
@@ -272,7 +375,6 @@
     100% { content: '...'; }
   }
 
-  /* FADE IN */
   .fade-in { animation: fadeIn 0.4s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 </style>
@@ -286,10 +388,18 @@
 
 <div class="container">
 
-  <!-- TOTALS -->
+  <!-- RANKINGS -->
   <div class="card fade-in">
-    <div class="card-title">Totals</div>
-    <div class="totals-grid" id="totals">
+    <div class="card-title">Rankings</div>
+    <div id="rankings">
+      <div class="loading dot-anim">Loading</div>
+    </div>
+  </div>
+
+  <!-- VIBES -->
+  <div class="card fade-in">
+    <div class="card-title">Vibes 🌡️</div>
+    <div class="vibes-grid" id="vibes">
       <div class="loading dot-anim">Loading</div>
     </div>
   </div>
@@ -356,7 +466,8 @@
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjWdg-CRhpW_y-Lf60AbQOR3vG5KVCjqluORpVQVUzFo4KSgmW8U0_qI0ilPZFwNDHQg/exec';
 const PLAYERS = ['Ana', 'Cezi', 'Bogdan', 'Mihai'];
-const COLORS = { Ana: '#f0c040', Cezi: '#6ec6f5', Bogdan: '#a78bfa', Mihai: '#f97b6b' };
+const COLORS  = { Ana: '#f0c040', Cezi: '#6ec6f5', Bogdan: '#a78bfa', Mihai: '#f97b6b' };
+const STREAK_THRESHOLD = 3;
 
 let allData = [];
 let chartInstance = null;
@@ -365,11 +476,12 @@ async function loadData() {
   try {
     const res = await fetch(SCRIPT_URL + '?action=getScores');
     allData = await res.json();
-    renderTotals();
+    renderRankings();
+    renderVibes();
     renderChart();
     renderHistory();
   } catch(e) {
-    document.getElementById('totals').innerHTML = '<span style="color:var(--accent2)">Failed to load data. Check your connection.</span>';
+    document.getElementById('rankings').innerHTML = '<span style="color:var(--accent2)">Failed to load data. Check your connection.</span>';
   }
 }
 
@@ -380,20 +492,102 @@ function getTotal(player) {
   }, 0);
 }
 
-function renderTotals() {
-  const grid = document.getElementById('totals');
-  grid.innerHTML = PLAYERS.map(p => {
-    const t = getTotal(p);
-    return `<div class="total-card ${p.toLowerCase()}">
-      <div class="total-name">${p}</div>
-      <div class="total-score">${t > 0 ? '+' : ''}${t}</div>
+function getScores(player) {
+  return allData.map(row => {
+    const v = parseFloat(row[player]);
+    return isNaN(v) ? 0 : v;
+  });
+}
+
+function getAverage(player) {
+  const scores = getScores(player);
+  if (!scores.length) return 0;
+  return scores.reduce((a, b) => a + b, 0) / scores.length;
+}
+
+// Returns { status: 'fire'|'ice'|'neutral', streak: N }
+// Looks at the most recent games going backwards and counts how many in a row
+// the player has been above (fire) or below (ice) their overall average.
+function getStreak(player) {
+  const scores = getScores(player);
+  const avg = getAverage(player);
+  if (scores.length < STREAK_THRESHOLD) return { status: 'neutral', streak: 0 };
+
+  // Walk backwards from the most recent game
+  let fireStreak = 0;
+  let iceStreak = 0;
+
+  for (let i = scores.length - 1; i >= 0; i--) {
+    if (scores[i] > avg) {
+      if (iceStreak > 0) break; // streak broken
+      fireStreak++;
+    } else if (scores[i] < avg) {
+      if (fireStreak > 0) break;
+      iceStreak++;
+    } else {
+      // exactly average — breaks both streaks
+      break;
+    }
+  }
+
+  if (fireStreak >= STREAK_THRESHOLD) return { status: 'fire', streak: fireStreak };
+  if (iceStreak  >= STREAK_THRESHOLD) return { status: 'ice',  streak: iceStreak  };
+  return { status: 'neutral', streak: 0 };
+}
+
+function renderRankings() {
+  const totals = PLAYERS.map(p => ({ name: p, score: getTotal(p) }));
+  totals.sort((a, b) => b.score - a.score);
+  const leader = totals[0].score;
+  const medals = ['🥇', '🥈', '🥉', '4️⃣'];
+
+  document.getElementById('rankings').innerHTML = `<div class="ranking-list">${
+    totals.map((p, i) => {
+      const diff = p.score - leader;
+      const diffStr = i === 0 ? '' : `${diff.toLocaleString()} pts`;
+      const scoreStr = (p.score > 0 ? '+' : '') + p.score.toLocaleString();
+      return `<div class="ranking-row ${p.name.toLowerCase()}">
+        <div class="ranking-pos">${medals[i]}</div>
+        <div class="ranking-name">${p.name}</div>
+        <div class="ranking-score">${scoreStr}</div>
+        <div class="ranking-diff">${diffStr}</div>
+      </div>`;
+    }).join('')
+  }</div>`;
+}
+
+function renderVibes() {
+  document.getElementById('vibes').innerHTML = PLAYERS.map(p => {
+    const avg = getAverage(p);
+    const { status, streak } = getStreak(p);
+
+    const isFire = status === 'fire';
+    const isIce  = status === 'ice';
+
+    const cardClass = isFire ? 'on-fire' : isIce ? 'frozen' : '';
+    const badge     = isFire ? '🔥' : isIce ? '🧊' : '😐';
+    const label     = isFire ? 'On Fire' : isIce ? 'Frozen' : '';
+    const streakTxt = streak >= STREAK_THRESHOLD
+      ? `<div class="vibe-streak"><strong>${streak}</strong> games in a row</div>`
+      : `<div class="vibe-streak" style="color:transparent">—</div>`;
+
+    const avgDisplay = (avg > 0 ? '+' : '') + avg.toFixed(1);
+
+    return `<div class="vibe-card ${p.toLowerCase()} ${cardClass}">
+      <div class="vibe-name">${p}</div>
+      <span class="vibe-badge">${badge}</span>
+      <span class="vibe-label">${label}</span>
+      <div class="vibe-avg">${avgDisplay}</div>
+      <div class="vibe-avg-label">avg / game</div>
+      ${streakTxt}
     </div>`;
   }).join('');
 }
 
 function renderChart() {
-  // Build cumulative series, skipping rows with no date for x-axis label
-  const labels = allData.map((row, i) => row['Date'] ? String(row['Date']).slice(0, 10) : `Game ${i + 1}`);
+  const labels = allData.map((row, i) =>
+    row['Date'] ? String(row['Date']).slice(0, 10) : `Game ${i + 1}`
+  );
 
   const datasets = PLAYERS.map(p => {
     let cum = 0;
@@ -466,11 +660,21 @@ function scoreClass(v) {
 
 function renderHistory() {
   const tbody = document.getElementById('history-body');
+
   if (!allData.length) {
     tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted);padding:20px">No games yet.</td></tr>';
     return;
   }
-  tbody.innerHTML = [...allData].reverse().map((row, i) => {
+
+  const totalsRow = `<tr class="totals-row">
+    <td colspan="2" style="color:var(--muted);font-size:0.7rem;letter-spacing:2px;">TOTAL</td>
+    ${PLAYERS.map(p => {
+      const t = getTotal(p);
+      return `<td style="color:${COLORS[p]}">${(t > 0 ? '+' : '') + t.toLocaleString()}</td>`;
+    }).join('')}
+  </tr>`;
+
+  const gameRows = [...allData].reverse().map((row, i) => {
     const gameNum = allData.length - i;
     const date = row['Date'] ? String(row['Date']).slice(0, 10) : '—';
     return `<tr>
@@ -483,6 +687,8 @@ function renderHistory() {
       }).join('')}
     </tr>`;
   }).join('');
+
+  tbody.innerHTML = totalsRow + gameRows;
 }
 
 async function submitScore() {
@@ -508,7 +714,6 @@ async function submitScore() {
       headers: { 'Content-Type': 'text/plain' }
     });
 
-    // Clear inputs
     PLAYERS.forEach(p => document.getElementById('score-' + p).value = '');
     status.className = 'status-msg ok';
     status.textContent = '✓ Saved!';
