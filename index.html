@@ -115,7 +115,6 @@
   }
 
   .ranking-score { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; }
-
   .ranking-row.ana    .ranking-score { color: var(--ana); }
   .ranking-row.cezi   .ranking-score { color: var(--cezi); }
   .ranking-row.bogdan .ranking-score { color: var(--bogdan); }
@@ -124,12 +123,7 @@
   .ranking-diff { font-size: 0.82rem; color: var(--accent2); min-width: 80px; text-align: right; font-weight: 500; }
 
   /* VIBES */
-  .vibes-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
+  .vibes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (min-width: 500px) { .vibes-grid { grid-template-columns: repeat(4, 1fr); } }
 
   .vibe-card {
@@ -161,31 +155,19 @@
 
   .vibe-name { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; }
   .vibe-badge { font-size: 1.8rem; line-height: 1; margin-bottom: 6px; display: block; }
-
-  .vibe-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    display: block;
-    min-height: 14px;
-  }
-
+  .vibe-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 10px; display: block; min-height: 14px; }
   .vibe-card.on-fire .vibe-label { color: #ff7c2a; }
   .vibe-card.frozen  .vibe-label { color: #6ec6f5; }
-
   .vibe-avg { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
   .vibe-card.ana    .vibe-avg { color: var(--ana); }
   .vibe-card.cezi   .vibe-avg { color: var(--cezi); }
   .vibe-card.bogdan .vibe-avg { color: var(--bogdan); }
   .vibe-card.mihai  .vibe-avg { color: var(--mihai); }
-
   .vibe-avg-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
   .vibe-streak { margin-top: 8px; font-size: 0.72rem; color: var(--muted); }
   .vibe-streak strong { color: var(--text); }
 
-  /* CHART FILTER */
+  /* CHART */
   .chart-header {
     display: flex;
     align-items: center;
@@ -196,7 +178,6 @@
   }
 
   .chart-header .card-title { margin-bottom: 0; }
-
   .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
 
   .pill {
@@ -222,17 +203,9 @@
 
   /* FORM */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
   @media (min-width: 500px) { .form-grid { grid-template-columns: repeat(4, 1fr); } }
 
-  .field label {
-    display: block;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--muted);
-    margin-bottom: 7px;
-  }
+  .field label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 7px; }
 
   .field input {
     width: 100%;
@@ -281,7 +254,6 @@
 
   /* HISTORY TABLE */
   .table-wrap { overflow-x: auto; }
-
   table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 
   thead th {
@@ -312,8 +284,190 @@
     border-bottom: 2px solid var(--border) !important;
   }
 
-  .loading { text-align: center; color: var(--muted); padding: 40px; font-size: 0.9rem; letter-spacing: 1px; }
+  /* EDIT BUTTON */
+  .btn-edit {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+    transition: all 0.15s;
+    line-height: 1;
+  }
 
+  .btn-edit:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    width: 100%;
+    max-width: 480px;
+    animation: modalIn 0.2s ease;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .modal-subtitle {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 22px;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-date-field {
+    margin-bottom: 18px;
+  }
+
+  .modal-date-field label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 7px;
+  }
+
+  .modal-date-field input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    padding: 10px 13px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .modal-date-field input:focus { border-color: var(--accent); }
+
+  .modal-scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .modal-field label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 7px;
+  }
+
+  .modal-field input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.1rem;
+    padding: 10px 13px;
+    outline: none;
+    transition: border-color 0.15s;
+    -moz-appearance: textfield;
+  }
+
+  .modal-field input::-webkit-outer-spin-button,
+  .modal-field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .modal-field.ana    input:focus { border-color: var(--ana); }
+  .modal-field.cezi   input:focus { border-color: var(--cezi); }
+  .modal-field.bogdan input:focus { border-color: var(--bogdan); }
+  .modal-field.mihai  input:focus { border-color: var(--mihai); }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-save {
+    background: var(--accent);
+    color: #0e0e10;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    padding: 11px 26px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .btn-save:hover { opacity: 0.88; }
+  .btn-save:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-cancel {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-cancel:hover { border-color: var(--text); color: var(--text); }
+
+  .btn-delete {
+    background: none;
+    border: 1px solid #e05c5c44;
+    border-radius: 8px;
+    color: var(--accent2);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-left: auto;
+  }
+
+  .btn-delete:hover { background: #e05c5c18; border-color: var(--accent2); }
+  .btn-delete:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .modal-status { font-size: 0.82rem; color: var(--muted); width: 100%; margin-top: 4px; }
+  .modal-status.ok  { color: #6fcf97; }
+  .modal-status.err { color: var(--accent2); }
+
+  /* MISC */
+  .loading { text-align: center; color: var(--muted); padding: 40px; font-size: 0.9rem; letter-spacing: 1px; }
   .dot-anim::after { content: ''; animation: dots 1.2s infinite; }
 
   @keyframes dots {
@@ -336,19 +490,16 @@
 
 <div class="container">
 
-  <!-- RANKINGS -->
   <div class="card fade-in">
     <div class="card-title">Rankings</div>
     <div id="rankings"><div class="loading dot-anim">Loading</div></div>
   </div>
 
-  <!-- VIBES -->
   <div class="card fade-in">
     <div class="card-title">Vibes 🌡️</div>
     <div class="vibes-grid" id="vibes"><div class="loading dot-anim">Loading</div></div>
   </div>
 
-  <!-- CHART -->
   <div class="card fade-in">
     <div class="chart-header">
       <div class="card-title">Score Progression</div>
@@ -363,7 +514,6 @@
     <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
-  <!-- ADD SCORE -->
   <div class="card fade-in">
     <div class="card-title">Add Game Result</div>
     <div class="form-grid">
@@ -378,7 +528,6 @@
     </div>
   </div>
 
-  <!-- HISTORY -->
   <div class="card fade-in">
     <div class="card-title">Game History</div>
     <div class="table-wrap">
@@ -391,15 +540,55 @@
             <th style="color:var(--cezi)">Cezi</th>
             <th style="color:var(--bogdan)">Bogdan</th>
             <th style="color:var(--mihai)">Mihai</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="history-body">
-          <tr><td colspan="6" class="loading dot-anim">Loading</td></tr>
+          <tr><td colspan="7" class="loading dot-anim">Loading</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-title">Edit Game</div>
+    <div class="modal-subtitle" id="modal-subtitle">Game #</div>
+
+    <div class="modal-date-field">
+      <label>Date</label>
+      <input type="date" id="modal-date">
+    </div>
+
+    <div class="modal-scores">
+      <div class="modal-field ana">
+        <label style="color:var(--ana)">Ana</label>
+        <input type="number" id="modal-Ana">
+      </div>
+      <div class="modal-field cezi">
+        <label style="color:var(--cezi)">Cezi</label>
+        <input type="number" id="modal-Cezi">
+      </div>
+      <div class="modal-field bogdan">
+        <label style="color:var(--bogdan)">Bogdan</label>
+        <input type="number" id="modal-Bogdan">
+      </div>
+      <div class="modal-field mihai">
+        <label style="color:var(--mihai)">Mihai</label>
+        <input type="number" id="modal-Mihai">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" id="modal-save" onclick="saveEdit()">Save</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-delete" id="modal-delete" onclick="confirmDelete()">Delete game</button>
+    </div>
+    <div class="modal-status" id="modal-status"></div>
+  </div>
 </div>
 
 <script>
@@ -412,27 +601,24 @@ const THIS_YEAR = new Date().getFullYear();
 let allData = [];
 let chartInstance = null;
 let activeFilter = 20;
+let editingRow = null; // { rowIndex, gameNum }
 
-// ─── DATE HELPERS ────────────────────────────────────────────────────────────
+// ─── DATE HELPERS ─────────────────────────────────────────────────────────────
 
-// Parse "YYYY-MM-DD" or spreadsheet date strings safely, returns a Date or null
 function parseDate(raw) {
   if (!raw) return null;
   const s = String(raw).trim();
-  // Handle YYYY-MM-DD
   const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (iso) return new Date(parseInt(iso[1]), parseInt(iso[2]) - 1, parseInt(iso[3]));
-  // Handle MM/DD/YYYY
   const us = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (us) return new Date(parseInt(us[3]), parseInt(us[1]) - 1, parseInt(us[2]));
+  const d = new Date(s);
+  if (!isNaN(d)) return new Date(d.getTime() + d.getTimezoneOffset() * 60000);
   return null;
 }
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// For the history table:
-// Same year as today → "Feb 7"
-// Past year          → "Feb 7, 2023"
 function formatDateTable(raw) {
   const d = parseDate(raw);
   if (!d) return '—';
@@ -440,21 +626,6 @@ function formatDateTable(raw) {
   return d.getFullYear() === THIS_YEAR ? base : `${base}, ${d.getFullYear()}`;
 }
 
-// For the chart X-axis:
-// Returns { label, isYearBoundary }
-// First game of a new year (within the visible slice) gets "'YY" appended.
-function formatDateChart(raw, isFirstOfYear) {
-  const d = parseDate(raw);
-  if (!d) return { label: '?', isYearBoundary: false };
-  const base = `${MONTHS[d.getMonth()]} ${d.getDate()}`;
-  if (isFirstOfYear) {
-    const shortYear = String(d.getFullYear()).slice(2);
-    return { label: `${base} '${shortYear}`, isYearBoundary: true };
-  }
-  return { label: base, isYearBoundary: false };
-}
-
-// Build chart labels for a slice of data, marking the first game of each new year
 function buildChartLabels(slice) {
   let lastYear = null;
   return slice.map((row, i) => {
@@ -463,11 +634,22 @@ function buildChartLabels(slice) {
     const isFirstOfYear = year !== null && year !== lastYear;
     if (year !== null) lastYear = year;
     if (!d) return `Game ${i + 1}`;
-    return formatDateChart(row['Date'], isFirstOfYear).label;
+    const base = `${MONTHS[d.getMonth()]} ${d.getDate()}`;
+    if (isFirstOfYear) return `${base} '${String(d.getFullYear()).slice(2)}`;
+    return base;
   });
 }
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
+// Convert YYYY-MM-DD string to a value for <input type="date">
+function toInputDate(raw) {
+  const d = parseDate(raw);
+  if (!d) return '';
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${d.getFullYear()}-${mm}-${dd}`;
+}
+
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 
 async function loadData() {
   try {
@@ -490,10 +672,7 @@ function getTotal(player) {
 }
 
 function getScores(player) {
-  return allData.map(row => {
-    const v = parseFloat(row[player]);
-    return isNaN(v) ? 0 : v;
-  });
+  return allData.map(row => { const v = parseFloat(row[player]); return isNaN(v) ? 0 : v; });
 }
 
 function getAverage(player) {
@@ -506,31 +685,24 @@ function getStreak(player) {
   const scores = getScores(player);
   const avg = getAverage(player);
   if (scores.length < STREAK_THRESHOLD) return { status: 'neutral', streak: 0 };
-
   let fireStreak = 0, iceStreak = 0;
   for (let i = scores.length - 1; i >= 0; i--) {
-    if (scores[i] > avg) {
-      if (iceStreak > 0) break;
-      fireStreak++;
-    } else if (scores[i] < avg) {
-      if (fireStreak > 0) break;
-      iceStreak++;
-    } else { break; }
+    if (scores[i] > avg) { if (iceStreak > 0) break; fireStreak++; }
+    else if (scores[i] < avg) { if (fireStreak > 0) break; iceStreak++; }
+    else { break; }
   }
-
   if (fireStreak >= STREAK_THRESHOLD) return { status: 'fire', streak: fireStreak };
-  if (iceStreak  >= STREAK_THRESHOLD) return { status: 'ice',  streak: iceStreak  };
+  if (iceStreak  >= STREAK_THRESHOLD) return { status: 'ice',  streak: iceStreak };
   return { status: 'neutral', streak: 0 };
 }
 
-// ─── RENDER ──────────────────────────────────────────────────────────────────
+// ─── RENDER ───────────────────────────────────────────────────────────────────
 
 function renderRankings() {
   const totals = PLAYERS.map(p => ({ name: p, score: getTotal(p) }));
   totals.sort((a, b) => b.score - a.score);
   const leader = totals[0].score;
   const medals = ['🥇', '🥈', '🥉', '4️⃣'];
-
   document.getElementById('rankings').innerHTML = `<div class="ranking-list">${
     totals.map((p, i) => {
       const diff = p.score - leader;
@@ -557,12 +729,11 @@ function renderVibes() {
     const streakTxt = streak >= STREAK_THRESHOLD
       ? `<div class="vibe-streak"><strong>${streak}</strong> games in a row</div>`
       : `<div class="vibe-streak" style="color:transparent">—</div>`;
-    const avgDisplay = (avg > 0 ? '+' : '') + avg.toFixed(1);
     return `<div class="vibe-card ${p.toLowerCase()} ${cardClass}">
       <div class="vibe-name">${p}</div>
       <span class="vibe-badge">${badge}</span>
       <span class="vibe-label">${label}</span>
-      <div class="vibe-avg">${avgDisplay}</div>
+      <div class="vibe-avg">${(avg > 0 ? '+' : '') + avg.toFixed(1)}</div>
       <div class="vibe-avg-label">avg / game</div>
       ${streakTxt}
     </div>`;
@@ -578,30 +749,20 @@ function setFilter(n, btn) {
 
 function renderChart() {
   const slice = activeFilter === null ? allData : allData.slice(-activeFilter);
-
   const offsetsBefore = PLAYERS.reduce((acc, p) => {
     const startIdx = activeFilter === null ? 0 : Math.max(0, allData.length - activeFilter);
     let cum = 0;
-    for (let i = 0; i < startIdx; i++) {
-      const v = parseFloat(allData[i][p]);
-      cum += isNaN(v) ? 0 : v;
-    }
+    for (let i = 0; i < startIdx; i++) { const v = parseFloat(allData[i][p]); cum += isNaN(v) ? 0 : v; }
     acc[p] = cum;
     return acc;
   }, {});
 
   const labels = buildChartLabels(slice);
-
   const datasets = PLAYERS.map(p => {
     let cum = offsetsBefore[p];
-    const data = slice.map(row => {
-      const v = parseFloat(row[p]);
-      cum += isNaN(v) ? 0 : v;
-      return cum;
-    });
     return {
       label: p,
-      data,
+      data: slice.map(row => { const v = parseFloat(row[p]); cum += isNaN(v) ? 0 : v; return cum; }),
       borderColor: COLORS[p],
       backgroundColor: COLORS[p] + '15',
       borderWidth: 3,
@@ -617,7 +778,6 @@ function renderChart() {
 
   const ctx = document.getElementById('chart').getContext('2d');
   if (chartInstance) chartInstance.destroy();
-
   chartInstance = new Chart(ctx, {
     type: 'line',
     data: { labels, datasets },
@@ -627,69 +787,39 @@ function renderChart() {
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: {
-          labels: {
-            color: '#f0efe8',
-            font: { family: 'DM Sans', size: 13 },
-            boxWidth: 14,
-            padding: 20,
-            usePointStyle: true,
-            pointStyle: 'circle',
-          },
+          labels: { color: '#f0efe8', font: { family: 'DM Sans', size: 13 }, boxWidth: 14, padding: 20, usePointStyle: true, pointStyle: 'circle' },
           onClick(e, legendItem, legend) {
-            const idx = legendItem.datasetIndex;
-            const meta = legend.chart.getDatasetMeta(idx);
+            const meta = legend.chart.getDatasetMeta(legendItem.datasetIndex);
             meta.hidden = !meta.hidden;
             legend.chart.update();
           }
         },
         tooltip: {
-          backgroundColor: '#18181c',
-          borderColor: '#2e2e38',
-          borderWidth: 1,
-          titleColor: '#7a7a8a',
-          titleFont: { family: 'DM Sans', size: 11 },
-          bodyColor: '#f0efe8',
-          bodyFont: { family: 'DM Sans', size: 13 },
-          padding: 14,
+          backgroundColor: '#18181c', borderColor: '#2e2e38', borderWidth: 1,
+          titleColor: '#7a7a8a', titleFont: { family: 'DM Sans', size: 11 },
+          bodyColor: '#f0efe8', bodyFont: { family: 'DM Sans', size: 13 }, padding: 14,
           callbacks: {
             label(ctx) {
               const val = ctx.parsed.y;
-              const sign = val >= 0 ? '+' : '';
-              return `  ${ctx.dataset.label}: ${sign}${val.toLocaleString()}`;
+              return `  ${ctx.dataset.label}: ${val >= 0 ? '+' : ''}${val.toLocaleString()}`;
             }
           }
         }
       },
       scales: {
-        x: {
-          ticks: {
-            color: '#7a7a8a',
-            font: { size: 11 },
-            maxRotation: 45,
-            maxTicksLimit: 12,
-          },
-          grid: { color: '#2e2e38' }
-        },
-        y: {
-          ticks: { color: '#7a7a8a', font: { size: 11 } },
-          grid: { color: '#2e2e38' }
-        }
+        x: { ticks: { color: '#7a7a8a', font: { size: 11 }, maxRotation: 45, maxTicksLimit: 12 }, grid: { color: '#2e2e38' } },
+        y: { ticks: { color: '#7a7a8a', font: { size: 11 } }, grid: { color: '#2e2e38' } }
       }
     }
   });
 }
 
-function scoreClass(v) {
-  if (v > 0) return 'pos';
-  if (v < 0) return 'neg';
-  return 'zero';
-}
+function scoreClass(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero'; }
 
 function renderHistory() {
   const tbody = document.getElementById('history-body');
-
   if (!allData.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted);padding:20px">No games yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="color:var(--muted);padding:20px">No games yet.</td></tr>';
     return;
   }
 
@@ -699,11 +829,13 @@ function renderHistory() {
       const t = getTotal(p);
       return `<td style="color:${COLORS[p]}">${(t > 0 ? '+' : '') + t.toLocaleString()}</td>`;
     }).join('')}
+    <td></td>
   </tr>`;
 
   const gameRows = [...allData].reverse().map((row, i) => {
     const gameNum = allData.length - i;
     const date = formatDateTable(row['Date']);
+    const rowIndex = row['_rowIndex'];
     return `<tr>
       <td style="color:var(--muted)">${gameNum}</td>
       <td>${date}</td>
@@ -712,21 +844,120 @@ function renderHistory() {
         const display = isNaN(v) ? '—' : (v > 0 ? '+' + v : v);
         return `<td class="${isNaN(v) ? '' : scoreClass(v)}">${display}</td>`;
       }).join('')}
+      <td><button class="btn-edit" onclick="openModal(${rowIndex}, ${gameNum})">✏️</button></td>
     </tr>`;
   }).join('');
 
   tbody.innerHTML = totalsRow + gameRows;
 }
 
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+function openModal(rowIndex, gameNum) {
+  // Find the row in allData by _rowIndex
+  const row = allData.find(r => r['_rowIndex'] === rowIndex);
+  if (!row) return;
+
+  editingRow = { rowIndex, gameNum };
+
+  document.getElementById('modal-subtitle').textContent = `Game #${gameNum} · editing scores`;
+  document.getElementById('modal-date').value = toInputDate(row['Date']);
+  PLAYERS.forEach(p => {
+    document.getElementById('modal-' + p).value = row[p] !== undefined ? row[p] : '';
+  });
+
+  document.getElementById('modal-status').textContent = '';
+  document.getElementById('modal-status').className = 'modal-status';
+  document.getElementById('modal-save').disabled = false;
+  document.getElementById('modal-delete').disabled = false;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  editingRow = null;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+async function saveEdit() {
+  if (!editingRow) return;
+  const saveBtn   = document.getElementById('modal-save');
+  const deleteBtn = document.getElementById('modal-delete');
+  const statusEl  = document.getElementById('modal-status');
+
+  const dateVal = document.getElementById('modal-date').value; // YYYY-MM-DD
+  const scores = {};
+  PLAYERS.forEach(p => {
+    const raw = document.getElementById('modal-' + p).value;
+    scores[p] = raw === '' ? 0 : parseFloat(raw);
+  });
+
+  saveBtn.disabled = true;
+  deleteBtn.disabled = true;
+  statusEl.className = 'modal-status';
+  statusEl.textContent = 'Saving…';
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'updateScore', rowIndex: editingRow.rowIndex, date: dateVal, scores }),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+    statusEl.className = 'modal-status ok';
+    statusEl.textContent = '✓ Saved!';
+    setTimeout(closeModal, 800);
+    await loadData();
+  } catch(e) {
+    statusEl.className = 'modal-status err';
+    statusEl.textContent = '✗ Save failed. Try again.';
+    saveBtn.disabled = false;
+    deleteBtn.disabled = false;
+  }
+}
+
+async function confirmDelete() {
+  if (!editingRow) return;
+  const confirmed = window.confirm(`Delete Game #${editingRow.gameNum}? This cannot be undone.`);
+  if (!confirmed) return;
+
+  const saveBtn   = document.getElementById('modal-save');
+  const deleteBtn = document.getElementById('modal-delete');
+  const statusEl  = document.getElementById('modal-status');
+
+  saveBtn.disabled = true;
+  deleteBtn.disabled = true;
+  statusEl.className = 'modal-status';
+  statusEl.textContent = 'Deleting…';
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'deleteScore', rowIndex: editingRow.rowIndex }),
+      headers: { 'Content-Type': 'text/plain' }
+    });
+    setTimeout(closeModal, 400);
+    await loadData();
+  } catch(e) {
+    statusEl.className = 'modal-status err';
+    statusEl.textContent = '✗ Delete failed. Try again.';
+    saveBtn.disabled = false;
+    deleteBtn.disabled = false;
+  }
+}
+
+// ─── ADD SCORE ─────────────────────────────────────────────────────────────────
+
 async function submitScore() {
   const btn = document.getElementById('submit-btn');
   const status = document.getElementById('status');
-
   const scores = {};
-  for (const p of PLAYERS) {
+  PLAYERS.forEach(p => {
     const raw = document.getElementById('score-' + p).value;
     scores[p] = raw === '' ? 0 : parseFloat(raw);
-  }
+  });
 
   const today = new Date().toISOString().slice(0, 10);
   btn.disabled = true;
@@ -739,7 +970,6 @@ async function submitScore() {
       body: JSON.stringify({ action: 'addScore', date: today, scores }),
       headers: { 'Content-Type': 'text/plain' }
     });
-
     PLAYERS.forEach(p => document.getElementById('score-' + p).value = '');
     status.className = 'status-msg ok';
     status.textContent = '✓ Saved!';
