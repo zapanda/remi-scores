@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remi Famiglia</title>
+<title>Score Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -85,11 +85,7 @@
   }
 
   /* RANKINGS */
-  .ranking-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .ranking-list { display: flex; flex-direction: column; gap: 10px; }
 
   .ranking-row {
     display: flex;
@@ -108,12 +104,7 @@
   .ranking-row.bogdan { border-left-color: var(--bogdan); }
   .ranking-row.mihai  { border-left-color: var(--mihai); }
 
-  .ranking-pos {
-    font-size: 1.4rem;
-    width: 32px;
-    text-align: center;
-    flex-shrink: 0;
-  }
+  .ranking-pos { font-size: 1.4rem; width: 32px; text-align: center; flex-shrink: 0; }
 
   .ranking-name {
     font-size: 0.72rem;
@@ -123,24 +114,14 @@
     flex: 1;
   }
 
-  .ranking-score {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
-  }
+  .ranking-score { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; }
 
   .ranking-row.ana    .ranking-score { color: var(--ana); }
   .ranking-row.cezi   .ranking-score { color: var(--cezi); }
   .ranking-row.bogdan .ranking-score { color: var(--bogdan); }
   .ranking-row.mihai  .ranking-score { color: var(--mihai); }
 
-  .ranking-diff {
-    font-size: 0.82rem;
-    color: var(--accent2);
-    min-width: 80px;
-    text-align: right;
-    font-weight: 500;
-  }
+  .ranking-diff { font-size: 0.82rem; color: var(--accent2); min-width: 80px; text-align: right; font-weight: 500; }
 
   /* VIBES */
   .vibes-grid {
@@ -149,9 +130,7 @@
     gap: 12px;
   }
 
-  @media (min-width: 500px) {
-    .vibes-grid { grid-template-columns: repeat(4, 1fr); }
-  }
+  @media (min-width: 500px) { .vibes-grid { grid-template-columns: repeat(4, 1fr); } }
 
   .vibe-card {
     background: var(--surface2);
@@ -180,14 +159,7 @@
     box-shadow: 0 0 18px #6ec6f522;
   }
 
-  .vibe-name {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-
+  .vibe-name { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; }
   .vibe-badge { font-size: 1.8rem; line-height: 1; margin-bottom: 6px; display: block; }
 
   .vibe-label {
@@ -203,25 +175,13 @@
   .vibe-card.on-fire .vibe-label { color: #ff7c2a; }
   .vibe-card.frozen  .vibe-label { color: #6ec6f5; }
 
-  .vibe-avg {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem;
-    letter-spacing: 1px;
-  }
-
+  .vibe-avg { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; }
   .vibe-card.ana    .vibe-avg { color: var(--ana); }
   .vibe-card.cezi   .vibe-avg { color: var(--cezi); }
   .vibe-card.bogdan .vibe-avg { color: var(--bogdan); }
   .vibe-card.mihai  .vibe-avg { color: var(--mihai); }
 
-  .vibe-avg-label {
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 3px;
-  }
-
+  .vibe-avg-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
   .vibe-streak { margin-top: 8px; font-size: 0.72rem; color: var(--muted); }
   .vibe-streak strong { color: var(--text); }
 
@@ -237,11 +197,7 @@
 
   .chart-header .card-title { margin-bottom: 0; }
 
-  .filter-pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+  .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
 
   .pill {
     background: var(--surface2);
@@ -259,35 +215,15 @@
   }
 
   .pill:hover { border-color: var(--accent); color: var(--text); }
+  .pill.active { background: var(--accent); border-color: var(--accent); color: #0e0e10; }
 
-  .pill.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #0e0e10;
-  }
-
-  .chart-hint {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-bottom: 14px;
-    letter-spacing: 0.5px;
-  }
-
-  .chart-wrap {
-    position: relative;
-    height: 320px;
-  }
+  .chart-hint { font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; letter-spacing: 0.5px; }
+  .chart-wrap { position: relative; height: 320px; }
 
   /* FORM */
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
-  @media (min-width: 500px) {
-    .form-grid { grid-template-columns: repeat(4, 1fr); }
-  }
+  @media (min-width: 500px) { .form-grid { grid-template-columns: repeat(4, 1fr); } }
 
   .field label {
     display: block;
@@ -320,13 +256,7 @@
   .field.bogdan input:focus { border-color: var(--bogdan); }
   .field.mihai  input:focus { border-color: var(--mihai); }
 
-  .submit-row {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
+  .submit-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
   button.submit {
     background: var(--accent);
@@ -352,11 +282,7 @@
   /* HISTORY TABLE */
   .table-wrap { overflow-x: auto; }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.88rem;
-  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 
   thead th {
     text-align: left;
@@ -368,11 +294,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.1s;
-  }
-
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
   tbody tr:last-child { border-bottom: none; }
   tbody tr:hover { background: var(--surface2); }
   tbody td { padding: 11px 12px; color: var(--text); }
@@ -390,18 +312,9 @@
     border-bottom: 2px solid var(--border) !important;
   }
 
-  .loading {
-    text-align: center;
-    color: var(--muted);
-    padding: 40px;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-  }
+  .loading { text-align: center; color: var(--muted); padding: 40px; font-size: 0.9rem; letter-spacing: 1px; }
 
-  .dot-anim::after {
-    content: '';
-    animation: dots 1.2s infinite;
-  }
+  .dot-anim::after { content: ''; animation: dots 1.2s infinite; }
 
   @keyframes dots {
     0%   { content: ''; }
@@ -417,7 +330,7 @@
 <body>
 
 <header>
-  <h1>Remi Famiglia</h1>
+  <h1>Score Tracker</h1>
   <span>Ana · Cezi · Bogdan · Mihai</span>
 </header>
 
@@ -426,17 +339,13 @@
   <!-- RANKINGS -->
   <div class="card fade-in">
     <div class="card-title">Rankings</div>
-    <div id="rankings">
-      <div class="loading dot-anim">Loading</div>
-    </div>
+    <div id="rankings"><div class="loading dot-anim">Loading</div></div>
   </div>
 
   <!-- VIBES -->
   <div class="card fade-in">
     <div class="card-title">Vibes 🌡️</div>
-    <div class="vibes-grid" id="vibes">
-      <div class="loading dot-anim">Loading</div>
-    </div>
+    <div class="vibes-grid" id="vibes"><div class="loading dot-anim">Loading</div></div>
   </div>
 
   <!-- CHART -->
@@ -451,31 +360,17 @@
       </div>
     </div>
     <div class="chart-hint">Click a player name in the legend to show or hide their line.</div>
-    <div class="chart-wrap">
-      <canvas id="chart"></canvas>
-    </div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
   <!-- ADD SCORE -->
   <div class="card fade-in">
     <div class="card-title">Add Game Result</div>
     <div class="form-grid">
-      <div class="field ana">
-        <label>Ana</label>
-        <input type="number" id="score-Ana" placeholder="0">
-      </div>
-      <div class="field cezi">
-        <label>Cezi</label>
-        <input type="number" id="score-Cezi" placeholder="0">
-      </div>
-      <div class="field bogdan">
-        <label>Bogdan</label>
-        <input type="number" id="score-Bogdan" placeholder="0">
-      </div>
-      <div class="field mihai">
-        <label>Mihai</label>
-        <input type="number" id="score-Mihai" placeholder="0">
-      </div>
+      <div class="field ana"><label>Ana</label><input type="number" id="score-Ana" placeholder="0"></div>
+      <div class="field cezi"><label>Cezi</label><input type="number" id="score-Cezi" placeholder="0"></div>
+      <div class="field bogdan"><label>Bogdan</label><input type="number" id="score-Bogdan" placeholder="0"></div>
+      <div class="field mihai"><label>Mihai</label><input type="number" id="score-Mihai" placeholder="0"></div>
     </div>
     <div class="submit-row">
       <button class="submit" id="submit-btn" onclick="submitScore()">Save Game</button>
@@ -512,10 +407,67 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjWdg-CRhpW_y-Lf60A
 const PLAYERS = ['Ana', 'Cezi', 'Bogdan', 'Mihai'];
 const COLORS  = { Ana: '#f0c040', Cezi: '#6ec6f5', Bogdan: '#a78bfa', Mihai: '#f97b6b' };
 const STREAK_THRESHOLD = 3;
+const THIS_YEAR = new Date().getFullYear();
 
 let allData = [];
 let chartInstance = null;
-let activeFilter = 20; // default
+let activeFilter = 20;
+
+// ─── DATE HELPERS ────────────────────────────────────────────────────────────
+
+// Parse "YYYY-MM-DD" or spreadsheet date strings safely, returns a Date or null
+function parseDate(raw) {
+  if (!raw) return null;
+  const s = String(raw).trim();
+  // Handle YYYY-MM-DD
+  const iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return new Date(parseInt(iso[1]), parseInt(iso[2]) - 1, parseInt(iso[3]));
+  // Handle MM/DD/YYYY
+  const us = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (us) return new Date(parseInt(us[3]), parseInt(us[1]) - 1, parseInt(us[2]));
+  return null;
+}
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// For the history table:
+// Same year as today → "Feb 7"
+// Past year          → "Feb 7, 2023"
+function formatDateTable(raw) {
+  const d = parseDate(raw);
+  if (!d) return '—';
+  const base = `${MONTHS[d.getMonth()]} ${d.getDate()}`;
+  return d.getFullYear() === THIS_YEAR ? base : `${base}, ${d.getFullYear()}`;
+}
+
+// For the chart X-axis:
+// Returns { label, isYearBoundary }
+// First game of a new year (within the visible slice) gets "'YY" appended.
+function formatDateChart(raw, isFirstOfYear) {
+  const d = parseDate(raw);
+  if (!d) return { label: '?', isYearBoundary: false };
+  const base = `${MONTHS[d.getMonth()]} ${d.getDate()}`;
+  if (isFirstOfYear) {
+    const shortYear = String(d.getFullYear()).slice(2);
+    return { label: `${base} '${shortYear}`, isYearBoundary: true };
+  }
+  return { label: base, isYearBoundary: false };
+}
+
+// Build chart labels for a slice of data, marking the first game of each new year
+function buildChartLabels(slice) {
+  let lastYear = null;
+  return slice.map((row, i) => {
+    const d = parseDate(row['Date']);
+    const year = d ? d.getFullYear() : null;
+    const isFirstOfYear = year !== null && year !== lastYear;
+    if (year !== null) lastYear = year;
+    if (!d) return `Game ${i + 1}`;
+    return formatDateChart(row['Date'], isFirstOfYear).label;
+  });
+}
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
 
 async function loadData() {
   try {
@@ -555,9 +507,7 @@ function getStreak(player) {
   const avg = getAverage(player);
   if (scores.length < STREAK_THRESHOLD) return { status: 'neutral', streak: 0 };
 
-  let fireStreak = 0;
-  let iceStreak = 0;
-
+  let fireStreak = 0, iceStreak = 0;
   for (let i = scores.length - 1; i >= 0; i--) {
     if (scores[i] > avg) {
       if (iceStreak > 0) break;
@@ -565,15 +515,15 @@ function getStreak(player) {
     } else if (scores[i] < avg) {
       if (fireStreak > 0) break;
       iceStreak++;
-    } else {
-      break;
-    }
+    } else { break; }
   }
 
   if (fireStreak >= STREAK_THRESHOLD) return { status: 'fire', streak: fireStreak };
   if (iceStreak  >= STREAK_THRESHOLD) return { status: 'ice',  streak: iceStreak  };
   return { status: 'neutral', streak: 0 };
 }
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
 
 function renderRankings() {
   const totals = PLAYERS.map(p => ({ name: p, score: getTotal(p) }));
@@ -600,11 +550,10 @@ function renderVibes() {
   document.getElementById('vibes').innerHTML = PLAYERS.map(p => {
     const avg = getAverage(p);
     const { status, streak } = getStreak(p);
-    const isFire = status === 'fire';
-    const isIce  = status === 'ice';
+    const isFire = status === 'fire', isIce = status === 'ice';
     const cardClass = isFire ? 'on-fire' : isIce ? 'frozen' : '';
-    const badge     = isFire ? '🔥' : isIce ? '🧊' : '😐';
-    const label     = isFire ? 'On Fire' : isIce ? 'Frozen' : '';
+    const badge  = isFire ? '🔥' : isIce ? '🧊' : '😐';
+    const label  = isFire ? 'On Fire' : isIce ? 'Frozen' : '';
     const streakTxt = streak >= STREAK_THRESHOLD
       ? `<div class="vibe-streak"><strong>${streak}</strong> games in a row</div>`
       : `<div class="vibe-streak" style="color:transparent">—</div>`;
@@ -628,11 +577,8 @@ function setFilter(n, btn) {
 }
 
 function renderChart() {
-  // Slice data according to active filter
   const slice = activeFilter === null ? allData : allData.slice(-activeFilter);
 
-  // Build cumulative totals relative to the start of the slice
-  // so the chart always starts from the correct running total at that point
   const offsetsBefore = PLAYERS.reduce((acc, p) => {
     const startIdx = activeFilter === null ? 0 : Math.max(0, allData.length - activeFilter);
     let cum = 0;
@@ -644,9 +590,7 @@ function renderChart() {
     return acc;
   }, {});
 
-  const labels = slice.map((row, i) =>
-    row['Date'] ? String(row['Date']).slice(0, 10) : `Game ${allData.length - slice.length + i + 1}`
-  );
+  const labels = buildChartLabels(slice);
 
   const datasets = PLAYERS.map(p => {
     let cum = offsetsBefore[p];
@@ -661,8 +605,8 @@ function renderChart() {
       borderColor: COLORS[p],
       backgroundColor: COLORS[p] + '15',
       borderWidth: 3,
-      pointRadius: 0,          // no dots by default
-      pointHoverRadius: 6,     // dots appear on hover only
+      pointRadius: 0,
+      pointHoverRadius: 6,
       pointHoverBackgroundColor: COLORS[p],
       pointHoverBorderColor: '#0e0e10',
       pointHoverBorderWidth: 2,
@@ -692,7 +636,6 @@ function renderChart() {
             pointStyle: 'circle',
           },
           onClick(e, legendItem, legend) {
-            // Default toggle behaviour — hide/show individual lines
             const idx = legendItem.datasetIndex;
             const meta = legend.chart.getDatasetMeta(idx);
             meta.hidden = !meta.hidden;
@@ -723,7 +666,6 @@ function renderChart() {
             color: '#7a7a8a',
             font: { size: 11 },
             maxRotation: 45,
-            // Thin out labels when many games shown
             maxTicksLimit: 12,
           },
           grid: { color: '#2e2e38' }
@@ -761,7 +703,7 @@ function renderHistory() {
 
   const gameRows = [...allData].reverse().map((row, i) => {
     const gameNum = allData.length - i;
-    const date = row['Date'] ? String(row['Date']).slice(0, 10) : '—';
+    const date = formatDateTable(row['Date']);
     return `<tr>
       <td style="color:var(--muted)">${gameNum}</td>
       <td>${date}</td>
