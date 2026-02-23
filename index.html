@@ -571,8 +571,12 @@
         <button class="pill" onclick="setFilter(null, this)">All time</button>
       </div>
     </div>
-    <div class="chart-hint">Click a player name in the legend to show or hide their line.</div>
+    <div class="chart-hint" id="chart-hint">Click a player name in the legend to show or hide their line.</div>
     <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    <div id="bar-chart-wrap" style="display:none">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--accent);margin:24px 0 14px">Points in window</div>
+      <div class="chart-wrap"><canvas id="chart-bar"></canvas></div>
+    </div>
   </div>
 
   <div class="card fade-in">
@@ -649,6 +653,7 @@ const THIS_YEAR = new Date().getFullYear();
 
 let allData = [];
 let chartInstance = null;
+let barChartInstance = null;
 let activeFilter = 20;
 let editingRow = null; // { rowIndex, gameNum }
 
@@ -796,71 +801,143 @@ function setFilter(n, btn) {
   renderChart();
 }
 
-function renderChart() {
-  const slice = activeFilter === null ? allData : allData.slice(-activeFilter);
-  const offsetsBefore = PLAYERS.reduce((acc, p) => {
-    const startIdx = activeFilter === null ? 0 : Math.max(0, allData.length - activeFilter);
-    let cum = 0;
-    for (let i = 0; i < startIdx; i++) { const v = parseFloat(allData[i][p]); cum += isNaN(v) ? 0 : v; }
-    acc[p] = cum;
-    return acc;
-  }, {});
+function sharedLegendOpts() {
+  return {
+    labels: { color: '#f0efe8', font: { family: 'DM Sans', size: 13 }, boxWidth: 14, padding: 20, usePointStyle: true, pointStyle: 'circle' },
+    onClick(e, legendItem, legend) {
+      const meta = legend.chart.getDatasetMeta(legendItem.datasetIndex);
+      meta.hidden = !meta.hidden;
+      legend.chart.update();
+    }
+  };
+}
 
+function sharedTooltipOpts() {
+  return {
+    backgroundColor: '#18181c', borderColor: '#2e2e38', borderWidth: 1,
+    titleColor: '#7a7a8a', titleFont: { family: 'DM Sans', size: 11 },
+    bodyColor: '#f0efe8', bodyFont: { family: 'DM Sans', size: 13 }, padding: 14,
+    callbacks: {
+      label(ctx) {
+        const val = ctx.parsed.y !== undefined ? ctx.parsed.y : ctx.parsed;
+        return `  ${ctx.dataset.label}: ${val >= 0 ? '+' : ''}${val.toLocaleString()}`;
+      }
+    }
+  };
+}
+
+function renderChart() {
+  const isFiltered = activeFilter !== null;
+  const slice = isFiltered ? allData.slice(-activeFilter) : allData;
+
+  // ── Line chart ─────────────────────────────────────────────────────────────
   const labels = buildChartLabels(slice);
-  const datasets = PLAYERS.map(p => {
-    let cum = offsetsBefore[p];
-    return {
-      label: p,
-      data: slice.map(row => { const v = parseFloat(row[p]); cum += isNaN(v) ? 0 : v; return cum; }),
-      borderColor: COLORS[p],
-      backgroundColor: COLORS[p] + '15',
-      borderWidth: 3,
-      pointRadius: 0,
-      pointHoverRadius: 6,
-      pointHoverBackgroundColor: COLORS[p],
-      pointHoverBorderColor: '#0e0e10',
-      pointHoverBorderWidth: 2,
-      tension: 0.35,
-      fill: false,
-    };
-  });
+  let lineDatasets;
+
+  if (isFiltered) {
+    // Filtered: cumulative within the window only, starting from 0
+    lineDatasets = PLAYERS.map(p => {
+      let cum = 0;
+      return {
+        label: p,
+        data: slice.map(row => { const v = parseFloat(row[p]); cum += isNaN(v) ? 0 : v; return cum; }),
+        borderColor: COLORS[p], backgroundColor: COLORS[p] + '15',
+        borderWidth: 3, pointRadius: 0, pointHoverRadius: 6,
+        pointHoverBackgroundColor: COLORS[p], pointHoverBorderColor: '#0e0e10',
+        pointHoverBorderWidth: 2, tension: 0.35, fill: false,
+      };
+    });
+  } else {
+    // All time: cumulative from the very beginning
+    lineDatasets = PLAYERS.map(p => {
+      let cum = 0;
+      return {
+        label: p,
+        data: allData.map(row => { const v = parseFloat(row[p]); cum += isNaN(v) ? 0 : v; return cum; }),
+        borderColor: COLORS[p], backgroundColor: COLORS[p] + '15',
+        borderWidth: 3, pointRadius: 0, pointHoverRadius: 6,
+        pointHoverBackgroundColor: COLORS[p], pointHoverBorderColor: '#0e0e10',
+        pointHoverBorderWidth: 2, tension: 0.35, fill: false,
+      };
+    });
+  }
 
   const ctx = document.getElementById('chart').getContext('2d');
   if (chartInstance) chartInstance.destroy();
   chartInstance = new Chart(ctx, {
     type: 'line',
-    data: { labels, datasets },
+    data: { labels, datasets: lineDatasets },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: {
-          labels: { color: '#f0efe8', font: { family: 'DM Sans', size: 13 }, boxWidth: 14, padding: 20, usePointStyle: true, pointStyle: 'circle' },
-          onClick(e, legendItem, legend) {
-            const meta = legend.chart.getDatasetMeta(legendItem.datasetIndex);
-            meta.hidden = !meta.hidden;
-            legend.chart.update();
-          }
-        },
-        tooltip: {
-          backgroundColor: '#18181c', borderColor: '#2e2e38', borderWidth: 1,
-          titleColor: '#7a7a8a', titleFont: { family: 'DM Sans', size: 11 },
-          bodyColor: '#f0efe8', bodyFont: { family: 'DM Sans', size: 13 }, padding: 14,
-          callbacks: {
-            label(ctx) {
-              const val = ctx.parsed.y;
-              return `  ${ctx.dataset.label}: ${val >= 0 ? '+' : ''}${val.toLocaleString()}`;
-            }
-          }
-        }
-      },
+      plugins: { legend: sharedLegendOpts(), tooltip: sharedTooltipOpts() },
       scales: {
         x: { ticks: { color: '#7a7a8a', font: { size: 11 }, maxRotation: 45, maxTicksLimit: 12 }, grid: { color: '#2e2e38' } },
-        y: { ticks: { color: '#7a7a8a', font: { size: 11 } }, grid: { color: '#2e2e38' } }
+        y: {
+          ticks: { color: '#7a7a8a', font: { size: 11 } },
+          grid: { color: '#2e2e38' },
+          min: isFiltered ? undefined : undefined,
+        }
       }
     }
   });
+
+  // ── Bar chart (filtered views only) ───────────────────────────────────────
+  const barWrap = document.getElementById('bar-chart-wrap');
+  const hint    = document.getElementById('chart-hint');
+
+  if (isFiltered) {
+    barWrap.style.display = 'block';
+    hint.textContent = 'Line: points accumulated within window (from 0). Bar: total points in window. Click legend to hide/show players.';
+
+    // Sum each player's points within the slice
+    const windowTotals = PLAYERS.map(p =>
+      slice.reduce((sum, row) => { const v = parseFloat(row[p]); return sum + (isNaN(v) ? 0 : v); }, 0)
+    );
+
+    const barDatasets = [{
+      label: 'Points in window',
+      data: windowTotals,
+      backgroundColor: PLAYERS.map(p => COLORS[p] + 'bb'),
+      borderColor:     PLAYERS.map(p => COLORS[p]),
+      borderWidth: 2,
+      borderRadius: 6,
+      borderSkipped: false,
+    }];
+
+    const ctxBar = document.getElementById('chart-bar').getContext('2d');
+    if (barChartInstance) barChartInstance.destroy();
+    barChartInstance = new Chart(ctxBar, {
+      type: 'bar',
+      data: { labels: PLAYERS, datasets: barDatasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#18181c', borderColor: '#2e2e38', borderWidth: 1,
+            titleColor: '#7a7a8a', titleFont: { family: 'DM Sans', size: 11 },
+            bodyColor: '#f0efe8', bodyFont: { family: 'DM Sans', size: 13 }, padding: 14,
+            callbacks: {
+              label(ctx) {
+                const val = ctx.parsed.y;
+                return `  ${val >= 0 ? '+' : ''}${val.toLocaleString()} pts`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#7a7a8a', font: { size: 12 } }, grid: { display: false } },
+          y: { ticks: { color: '#7a7a8a', font: { size: 11 } }, grid: { color: '#2e2e38' } }
+        }
+      }
+    });
+  } else {
+    // All time: hide bar chart
+    barWrap.style.display = 'none';
+    if (barChartInstance) { barChartInstance.destroy(); barChartInstance = null; }
+    hint.textContent = 'Click a player name in the legend to show or hide their line.';
+  }
 }
 
 function scoreClass(v) { return v > 0 ? 'pos' : v < 0 ? 'neg' : 'zero'; }
