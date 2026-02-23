@@ -231,6 +231,53 @@
   .field.bogdan input:focus { border-color: var(--bogdan); }
   .field.mihai  input:focus { border-color: var(--mihai); }
 
+
+  /* +/- TOGGLE BUTTON */
+  .field-wrap {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+  }
+
+  .field-wrap input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .btn-sign {
+    flex-shrink: 0;
+    width: 38px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .btn-sign:hover { border-color: var(--accent2); color: var(--accent2); }
+  .btn-sign.negative { background: #e05c5c22; border-color: var(--accent2); color: var(--accent2); }
+
+  /* modal field wrap */
+  .modal-field-wrap {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+  }
+
+  .modal-field-wrap input {
+    flex: 1;
+    min-width: 0;
+  }
+
   .submit-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
   button.submit {
@@ -519,10 +566,10 @@
   <div class="card fade-in">
     <div class="card-title">Add Game Result</div>
     <div class="form-grid">
-      <div class="field ana"><label>Ana</label><input type="text" inputmode="decimal" id="score-Ana" placeholder="0"></div>
-      <div class="field cezi"><label>Cezi</label><input type="text" inputmode="decimal" id="score-Cezi" placeholder="0"></div>
-      <div class="field bogdan"><label>Bogdan</label><input type="text" inputmode="decimal" id="score-Bogdan" placeholder="0"></div>
-      <div class="field mihai"><label>Mihai</label><input type="text" inputmode="decimal" id="score-Mihai" placeholder="0"></div>
+      <div class="field ana"><label>Ana</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Ana" placeholder="0" oninput="syncSignBtn('score-Ana', 'sign-Ana')"><button type="button" class="btn-sign" id="sign-Ana" onclick="toggleSign('score-Ana', 'sign-Ana')">−</button></div></div>
+      <div class="field cezi"><label>Cezi</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Cezi" placeholder="0" oninput="syncSignBtn('score-Cezi', 'sign-Cezi')"><button type="button" class="btn-sign" id="sign-Cezi" onclick="toggleSign('score-Cezi', 'sign-Cezi')">−</button></div></div>
+      <div class="field bogdan"><label>Bogdan</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Bogdan" placeholder="0" oninput="syncSignBtn('score-Bogdan', 'sign-Bogdan')"><button type="button" class="btn-sign" id="sign-Bogdan" onclick="toggleSign('score-Bogdan', 'sign-Bogdan')">−</button></div></div>
+      <div class="field mihai"><label>Mihai</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Mihai" placeholder="0" oninput="syncSignBtn('score-Mihai', 'sign-Mihai')"><button type="button" class="btn-sign" id="sign-Mihai" onclick="toggleSign('score-Mihai', 'sign-Mihai')">−</button></div></div>
     </div>
     <div class="submit-row">
       <button class="submit" id="submit-btn" onclick="submitScore()">Save Game</button>
@@ -568,19 +615,19 @@
     <div class="modal-scores">
       <div class="modal-field ana">
         <label style="color:var(--ana)">Ana</label>
-        <input type="text" inputmode="decimal" id="modal-Ana">
+        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Ana" oninput="syncSignBtn('modal-Ana', 'modal-sign-Ana')" ><button type="button" class="btn-sign" id="modal-sign-Ana" onclick="toggleSign('modal-Ana', 'modal-sign-Ana')">−</button></div>
       </div>
       <div class="modal-field cezi">
         <label style="color:var(--cezi)">Cezi</label>
-        <input type="text" inputmode="decimal" id="modal-Cezi">
+        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Cezi" oninput="syncSignBtn('modal-Cezi', 'modal-sign-Cezi')" ><button type="button" class="btn-sign" id="modal-sign-Cezi" onclick="toggleSign('modal-Cezi', 'modal-sign-Cezi')">−</button></div>
       </div>
       <div class="modal-field bogdan">
         <label style="color:var(--bogdan)">Bogdan</label>
-        <input type="text" inputmode="decimal" id="modal-Bogdan">
+        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Bogdan" oninput="syncSignBtn('modal-Bogdan', 'modal-sign-Bogdan')" ><button type="button" class="btn-sign" id="modal-sign-Bogdan" onclick="toggleSign('modal-Bogdan', 'modal-sign-Bogdan')">−</button></div>
       </div>
       <div class="modal-field mihai">
         <label style="color:var(--mihai)">Mihai</label>
-        <input type="text" inputmode="decimal" id="modal-Mihai">
+        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Mihai" oninput="syncSignBtn('modal-Mihai', 'modal-sign-Mihai')" ><button type="button" class="btn-sign" id="modal-sign-Mihai" onclick="toggleSign('modal-Mihai', 'modal-sign-Mihai')">−</button></div>
       </div>
     </div>
 
@@ -866,8 +913,10 @@ function openModal(rowIndex, gameNum) {
   document.getElementById('modal-date').value = toInputDate(row['Date']);
   PLAYERS.forEach(p => {
     document.getElementById('modal-' + p).value = row[p] !== undefined ? row[p] : '';
+    syncSignBtn('modal-' + p, 'modal-sign-' + p);
   });
 
+  PLAYERS.forEach(p => { const b = document.getElementById('modal-sign-' + p); if(b) b.classList.remove('negative'); });
   document.getElementById('modal-status').textContent = '';
   document.getElementById('modal-status').className = 'modal-status';
   document.getElementById('modal-save').disabled = false;
@@ -972,7 +1021,7 @@ async function submitScore() {
       body: JSON.stringify({ action: 'addScore', date: today, scores }),
       headers: { 'Content-Type': 'text/plain' }
     });
-    PLAYERS.forEach(p => document.getElementById('score-' + p).value = '');
+    PLAYERS.forEach(p => { document.getElementById('score-' + p).value = ''; document.getElementById('sign-' + p).classList.remove('negative'); });
     status.className = 'status-msg ok';
     status.textContent = '✓ Saved!';
     await loadData();
@@ -983,6 +1032,34 @@ async function submitScore() {
 
   btn.disabled = false;
   setTimeout(() => status.textContent = '', 4000);
+}
+
+
+function toggleSign(inputId, btnId) {
+  const input = document.getElementById(inputId);
+  const btn   = document.getElementById(btnId);
+  const val   = input.value.trim();
+
+  if (val === '' || val === '0') return; // nothing to negate
+
+  if (val.startsWith('-')) {
+    input.value = val.slice(1);
+    btn.classList.remove('negative');
+  } else {
+    input.value = '-' + val;
+    btn.classList.add('negative');
+  }
+}
+
+// Keep sign button state in sync when user types manually
+function syncSignBtn(inputId, btnId) {
+  const input = document.getElementById(inputId);
+  const btn   = document.getElementById(btnId);
+  if (input.value.trim().startsWith('-')) {
+    btn.classList.add('negative');
+  } else {
+    btn.classList.remove('negative');
+  }
 }
 
 loadData();
