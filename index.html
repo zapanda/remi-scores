@@ -232,51 +232,30 @@
   .field.mihai  input:focus { border-color: var(--mihai); }
 
 
-  /* +/- TOGGLE BUTTON */
-  .field-wrap {
+  /* PRESET SCORE PILLS */
+  .preset-pills {
     display: flex;
-    gap: 6px;
-    align-items: stretch;
+    gap: 5px;
+    margin-top: 6px;
+    flex-wrap: wrap;
   }
 
-  .field-wrap input {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .btn-sign {
-    flex-shrink: 0;
-    width: 38px;
+  .preset {
     background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 999px;
     color: var(--muted);
-    font-size: 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
     font-weight: 600;
+    padding: 3px 10px;
     cursor: pointer;
     transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    padding: 0;
-    margin-top: 0;
+    white-space: nowrap;
   }
 
-  .btn-sign:hover { border-color: var(--accent2); color: var(--accent2); }
-  .btn-sign.negative { background: #e05c5c22; border-color: var(--accent2); color: var(--accent2); }
-
-  /* modal field wrap */
-  .modal-field-wrap {
-    display: flex;
-    gap: 6px;
-    align-items: stretch;
-  }
-
-  .modal-field-wrap input {
-    flex: 1;
-    min-width: 0;
-  }
+  .preset:hover  { border-color: var(--accent2); color: var(--accent2); }
+  .preset.active { background: #e05c5c22; border-color: var(--accent2); color: var(--accent2); }
 
   .submit-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
@@ -566,10 +545,10 @@
   <div class="card fade-in">
     <div class="card-title">Add Game Result</div>
     <div class="form-grid">
-      <div class="field ana"><label>Ana</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Ana" placeholder="0" oninput="syncSignBtn('score-Ana', 'sign-Ana')"><button type="button" class="btn-sign" id="sign-Ana" onclick="toggleSign('score-Ana', 'sign-Ana')">−</button></div></div>
-      <div class="field cezi"><label>Cezi</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Cezi" placeholder="0" oninput="syncSignBtn('score-Cezi', 'sign-Cezi')"><button type="button" class="btn-sign" id="sign-Cezi" onclick="toggleSign('score-Cezi', 'sign-Cezi')">−</button></div></div>
-      <div class="field bogdan"><label>Bogdan</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Bogdan" placeholder="0" oninput="syncSignBtn('score-Bogdan', 'sign-Bogdan')"><button type="button" class="btn-sign" id="sign-Bogdan" onclick="toggleSign('score-Bogdan', 'sign-Bogdan')">−</button></div></div>
-      <div class="field mihai"><label>Mihai</label><div class="field-wrap"><input type="text" inputmode="numeric" id="score-Mihai" placeholder="0" oninput="syncSignBtn('score-Mihai', 'sign-Mihai')"><button type="button" class="btn-sign" id="sign-Mihai" onclick="toggleSign('score-Mihai', 'sign-Mihai')">−</button></div></div>
+      <div class="field ana"><label>Ana</label><input type="text" inputmode="numeric" id="score-Ana" placeholder="0" oninput="clearPresets('score-Ana')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Ana', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Ana', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Ana', -200, this)">-200</button></div></div>
+      <div class="field cezi"><label>Cezi</label><input type="text" inputmode="numeric" id="score-Cezi" placeholder="0" oninput="clearPresets('score-Cezi')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Cezi', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Cezi', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Cezi', -200, this)">-200</button></div></div>
+      <div class="field bogdan"><label>Bogdan</label><input type="text" inputmode="numeric" id="score-Bogdan" placeholder="0" oninput="clearPresets('score-Bogdan')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Bogdan', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Bogdan', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Bogdan', -200, this)">-200</button></div></div>
+      <div class="field mihai"><label>Mihai</label><input type="text" inputmode="numeric" id="score-Mihai" placeholder="0" oninput="clearPresets('score-Mihai')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Mihai', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Mihai', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Mihai', -200, this)">-200</button></div></div>
     </div>
     <div class="submit-row">
       <button class="submit" id="submit-btn" onclick="submitScore()">Save Game</button>
@@ -613,21 +592,13 @@
     </div>
 
     <div class="modal-scores">
-      <div class="modal-field ana">
-        <label style="color:var(--ana)">Ana</label>
-        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Ana" oninput="syncSignBtn('modal-Ana', 'modal-sign-Ana')" ><button type="button" class="btn-sign" id="modal-sign-Ana" onclick="toggleSign('modal-Ana', 'modal-sign-Ana')">−</button></div>
+      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><input type="text" inputmode="numeric" id="modal-Ana" oninput="clearPresets('modal-Ana')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Ana', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Ana', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Ana', -200, this)">-200</button></div></div>
       </div>
-      <div class="modal-field cezi">
-        <label style="color:var(--cezi)">Cezi</label>
-        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Cezi" oninput="syncSignBtn('modal-Cezi', 'modal-sign-Cezi')" ><button type="button" class="btn-sign" id="modal-sign-Cezi" onclick="toggleSign('modal-Cezi', 'modal-sign-Cezi')">−</button></div>
+      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><input type="text" inputmode="numeric" id="modal-Cezi" oninput="clearPresets('modal-Cezi')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Cezi', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Cezi', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Cezi', -200, this)">-200</button></div></div>
       </div>
-      <div class="modal-field bogdan">
-        <label style="color:var(--bogdan)">Bogdan</label>
-        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Bogdan" oninput="syncSignBtn('modal-Bogdan', 'modal-sign-Bogdan')" ><button type="button" class="btn-sign" id="modal-sign-Bogdan" onclick="toggleSign('modal-Bogdan', 'modal-sign-Bogdan')">−</button></div>
+      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><input type="text" inputmode="numeric" id="modal-Bogdan" oninput="clearPresets('modal-Bogdan')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Bogdan', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Bogdan', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Bogdan', -200, this)">-200</button></div></div>
       </div>
-      <div class="modal-field mihai">
-        <label style="color:var(--mihai)">Mihai</label>
-        <div class="modal-field-wrap"><input type="text" inputmode="numeric" id="modal-Mihai" oninput="syncSignBtn('modal-Mihai', 'modal-sign-Mihai')" ><button type="button" class="btn-sign" id="modal-sign-Mihai" onclick="toggleSign('modal-Mihai', 'modal-sign-Mihai')">−</button></div>
+      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><input type="text" inputmode="numeric" id="modal-Mihai" oninput="clearPresets('modal-Mihai')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Mihai', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Mihai', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Mihai', -200, this)">-200</button></div></div>
       </div>
     </div>
 
@@ -912,11 +883,18 @@ function openModal(rowIndex, gameNum) {
   document.getElementById('modal-subtitle').textContent = `Game #${gameNum} · editing scores`;
   document.getElementById('modal-date').value = toInputDate(row['Date']);
   PLAYERS.forEach(p => {
-    document.getElementById('modal-' + p).value = row[p] !== undefined ? row[p] : '';
-    syncSignBtn('modal-' + p, 'modal-sign-' + p);
+    const val = row[p] !== undefined ? row[p] : '';
+    document.getElementById('modal-' + p).value = val;
+    // Highlight preset pill if the existing value matches one
+    const wrap = document.getElementById('modal-' + p)?.closest('.modal-field');
+    if (wrap) {
+      wrap.querySelectorAll('.preset').forEach(b => {
+        b.classList.toggle('active', String(b.textContent.trim()) === String(val));
+      });
+    }
   });
 
-  PLAYERS.forEach(p => { const b = document.getElementById('modal-sign-' + p); if(b) b.classList.remove('negative'); });
+  resetFieldPresets('modal-');
   document.getElementById('modal-status').textContent = '';
   document.getElementById('modal-status').className = 'modal-status';
   document.getElementById('modal-save').disabled = false;
@@ -1021,7 +999,8 @@ async function submitScore() {
       body: JSON.stringify({ action: 'addScore', date: today, scores }),
       headers: { 'Content-Type': 'text/plain' }
     });
-    PLAYERS.forEach(p => { document.getElementById('score-' + p).value = ''; document.getElementById('sign-' + p).classList.remove('negative'); });
+    PLAYERS.forEach(p => { document.getElementById('score-' + p).value = ''; });
+    resetFieldPresets('score-');
     status.className = 'status-msg ok';
     status.textContent = '✓ Saved!';
     await loadData();
@@ -1060,6 +1039,36 @@ function syncSignBtn(inputId, btnId) {
   } else {
     btn.classList.remove('negative');
   }
+}
+
+
+function setPreset(inputId, value, btn) {
+  const input = document.getElementById(inputId);
+  // If this preset is already active, deactivate it
+  const siblings = btn.closest('.preset-pills').querySelectorAll('.preset');
+  const wasActive = btn.classList.contains('active');
+  siblings.forEach(b => b.classList.remove('active'));
+  if (wasActive) {
+    input.value = '';
+  } else {
+    input.value = value;
+    btn.classList.add('active');
+  }
+}
+
+function clearPresets(inputId) {
+  // When user types manually, deactivate any active preset pill
+  const input = document.getElementById(inputId);
+  const wrap  = input.closest('.field, .modal-field');
+  if (!wrap) return;
+  wrap.querySelectorAll('.preset').forEach(b => b.classList.remove('active'));
+}
+
+function resetFieldPresets(prefix) {
+  PLAYERS.forEach(p => {
+    const wrap = document.getElementById(prefix + p)?.closest('.field, .modal-field');
+    if (wrap) wrap.querySelectorAll('.preset').forEach(b => b.classList.remove('active'));
+  });
 }
 
 loadData();
