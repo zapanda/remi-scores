@@ -88,9 +88,10 @@
   .ranking-list { display: flex; flex-direction: column; gap: 10px; }
 
   .ranking-row {
+    flex-wrap: wrap;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 8px 12px;
     background: var(--surface2);
     border-radius: 10px;
     padding: 14px 18px;
@@ -112,15 +113,16 @@
     letter-spacing: 2px;
     color: var(--muted);
     flex: 1;
+    min-width: 60px;
   }
 
-  .ranking-score { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; }
+  .ranking-score { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; flex-shrink: 0; }
   .ranking-row.ana    .ranking-score { color: var(--ana); }
   .ranking-row.cezi   .ranking-score { color: var(--cezi); }
   .ranking-row.bogdan .ranking-score { color: var(--bogdan); }
   .ranking-row.mihai  .ranking-score { color: var(--mihai); }
 
-  .ranking-diff { font-size: 0.82rem; color: var(--accent2); min-width: 80px; text-align: right; font-weight: 500; }
+  .ranking-diff { font-size: 0.82rem; color: var(--accent2); text-align: right; font-weight: 500; flex-shrink: 0; }
 
   /* VIBES */
   .vibes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -485,6 +487,7 @@
 
 <header>
   <h1>Remi Famiglia</h1>
+  <span>Ana · Cezi · Bogdan · Mihai</span>
 </header>
 
 <div class="container">
@@ -516,10 +519,10 @@
   <div class="card fade-in">
     <div class="card-title">Add Game Result</div>
     <div class="form-grid">
-      <div class="field ana"><label>Ana</label><input type="number" id="score-Ana" placeholder="0"></div>
-      <div class="field cezi"><label>Cezi</label><input type="number" id="score-Cezi" placeholder="0"></div>
-      <div class="field bogdan"><label>Bogdan</label><input type="number" id="score-Bogdan" placeholder="0"></div>
-      <div class="field mihai"><label>Mihai</label><input type="number" id="score-Mihai" placeholder="0"></div>
+      <div class="field ana"><label>Ana</label><input type="text" inputmode="decimal" id="score-Ana" placeholder="0"></div>
+      <div class="field cezi"><label>Cezi</label><input type="text" inputmode="decimal" id="score-Cezi" placeholder="0"></div>
+      <div class="field bogdan"><label>Bogdan</label><input type="text" inputmode="decimal" id="score-Bogdan" placeholder="0"></div>
+      <div class="field mihai"><label>Mihai</label><input type="text" inputmode="decimal" id="score-Mihai" placeholder="0"></div>
     </div>
     <div class="submit-row">
       <button class="submit" id="submit-btn" onclick="submitScore()">Save Game</button>
@@ -565,19 +568,19 @@
     <div class="modal-scores">
       <div class="modal-field ana">
         <label style="color:var(--ana)">Ana</label>
-        <input type="number" id="modal-Ana">
+        <input type="text" inputmode="decimal" id="modal-Ana">
       </div>
       <div class="modal-field cezi">
         <label style="color:var(--cezi)">Cezi</label>
-        <input type="number" id="modal-Cezi">
+        <input type="text" inputmode="decimal" id="modal-Cezi">
       </div>
       <div class="modal-field bogdan">
         <label style="color:var(--bogdan)">Bogdan</label>
-        <input type="number" id="modal-Bogdan">
+        <input type="text" inputmode="decimal" id="modal-Bogdan">
       </div>
       <div class="modal-field mihai">
         <label style="color:var(--mihai)">Mihai</label>
-        <input type="number" id="modal-Mihai">
+        <input type="text" inputmode="decimal" id="modal-Mihai">
       </div>
     </div>
 
