@@ -209,7 +209,18 @@
 
   .field label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 7px; }
 
-  .field input {
+
+
+
+  /* SCORING CONTROLS */
+  .scoring-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 0;
+  }
+
+  .scoring-controls input {
     width: 100%;
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -220,31 +231,25 @@
     padding: 11px 13px;
     outline: none;
     transition: border-color 0.15s;
-    -moz-appearance: textfield;
+    box-sizing: border-box;
   }
 
-  .field input::-webkit-outer-spin-button,
-  .field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .field.ana    .scoring-controls input:focus { border-color: var(--ana); }
+  .field.cezi   .scoring-controls input:focus { border-color: var(--cezi); }
+  .field.bogdan .scoring-controls input:focus { border-color: var(--bogdan); }
+  .field.mihai  .scoring-controls input:focus { border-color: var(--mihai); }
+  .modal-field.ana    .scoring-controls input:focus { border-color: var(--ana); }
+  .modal-field.cezi   .scoring-controls input:focus { border-color: var(--cezi); }
+  .modal-field.bogdan .scoring-controls input:focus { border-color: var(--bogdan); }
+  .modal-field.mihai  .scoring-controls input:focus { border-color: var(--mihai); }
 
-  .field.ana    input:focus { border-color: var(--ana); }
-  .field.cezi   input:focus { border-color: var(--cezi); }
-  .field.bogdan input:focus { border-color: var(--bogdan); }
-  .field.mihai  input:focus { border-color: var(--mihai); }
+  .pills-row { display: flex; gap: 5px; flex-wrap: wrap; }
 
-
-  /* PRESET SCORE PILLS */
-  .preset-pills {
-    display: flex;
-    gap: 5px;
-    margin-top: 6px;
-    flex-wrap: wrap;
-  }
-
-  .preset {
+  .pill-neg {
     background: var(--surface2);
-    border: 1px solid var(--border);
+    border: 1px solid #e05c5c55;
     border-radius: 999px;
-    color: var(--muted);
+    color: #e05c5c99;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.72rem;
     font-weight: 600;
@@ -253,9 +258,37 @@
     transition: all 0.15s;
     white-space: nowrap;
   }
+  .pill-neg:hover  { border-color: var(--accent2); color: var(--accent2); }
+  .pill-neg.active { background: #e05c5c22; border-color: var(--accent2); color: var(--accent2); font-weight: 700; }
 
-  .preset:hover  { border-color: var(--accent2); color: var(--accent2); }
-  .preset.active { background: #e05c5c22; border-color: var(--accent2); color: var(--accent2); }
+  .pill-pos {
+    background: var(--surface2);
+    border: 1px solid #6fcf9755;
+    border-radius: 8px;
+    color: #6fcf9799;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .pill-pos:hover  { border-color: #6fcf97; color: #6fcf97; }
+  .pill-pos.active { background: #6fcf9722; border-color: #6fcf97; color: #6fcf97; }
+
+  .score-result {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-align: right;
+    min-height: 18px;
+    transition: color 0.15s;
+  }
+  .score-result.positive { color: #6fcf97; }
+  .score-result.negative { color: var(--accent2); }
 
   .submit-row { margin-top: 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
@@ -545,10 +578,10 @@
   <div class="card fade-in">
     <div class="card-title">Add Game Result</div>
     <div class="form-grid">
-      <div class="field ana"><label>Ana</label><input type="text" inputmode="numeric" id="score-Ana" placeholder="0" oninput="clearPresets('score-Ana')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Ana', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Ana', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Ana', -200, this)">-200</button></div></div>
-      <div class="field cezi"><label>Cezi</label><input type="text" inputmode="numeric" id="score-Cezi" placeholder="0" oninput="clearPresets('score-Cezi')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Cezi', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Cezi', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Cezi', -200, this)">-200</button></div></div>
-      <div class="field bogdan"><label>Bogdan</label><input type="text" inputmode="numeric" id="score-Bogdan" placeholder="0" oninput="clearPresets('score-Bogdan')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Bogdan', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Bogdan', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Bogdan', -200, this)">-200</button></div></div>
-      <div class="field mihai"><label>Mihai</label><input type="text" inputmode="numeric" id="score-Mihai" placeholder="0" oninput="clearPresets('score-Mihai')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('score-Mihai', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('score-Mihai', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('score-Mihai', -200, this)">-200</button></div></div>
+      <div class="field ana"><label>Ana</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="score-Ana" placeholder="0" oninput="onScoreInput('score-Ana')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('score-Ana', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="score-Ana-atu" onclick="toggleMod('score-Ana', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="score-Ana-2x" onclick="toggleMod('score-Ana', '2x')">2×</button></div><div class="score-result" id="score-Ana-result"></div></div></div>
+      <div class="field cezi"><label>Cezi</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="score-Cezi" placeholder="0" oninput="onScoreInput('score-Cezi')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('score-Cezi', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="score-Cezi-atu" onclick="toggleMod('score-Cezi', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="score-Cezi-2x" onclick="toggleMod('score-Cezi', '2x')">2×</button></div><div class="score-result" id="score-Cezi-result"></div></div></div>
+      <div class="field bogdan"><label>Bogdan</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="score-Bogdan" placeholder="0" oninput="onScoreInput('score-Bogdan')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('score-Bogdan', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="score-Bogdan-atu" onclick="toggleMod('score-Bogdan', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="score-Bogdan-2x" onclick="toggleMod('score-Bogdan', '2x')">2×</button></div><div class="score-result" id="score-Bogdan-result"></div></div></div>
+      <div class="field mihai"><label>Mihai</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="score-Mihai" placeholder="0" oninput="onScoreInput('score-Mihai')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('score-Mihai', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="score-Mihai-atu" onclick="toggleMod('score-Mihai', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="score-Mihai-2x" onclick="toggleMod('score-Mihai', '2x')">2×</button></div><div class="score-result" id="score-Mihai-result"></div></div></div>
     </div>
     <div class="submit-row">
       <button class="submit" id="submit-btn" onclick="submitScore()">Save Game</button>
@@ -592,14 +625,10 @@
     </div>
 
     <div class="modal-scores">
-      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><input type="text" inputmode="numeric" id="modal-Ana" oninput="clearPresets('modal-Ana')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Ana', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Ana', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Ana', -200, this)">-200</button></div></div>
-      </div>
-      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><input type="text" inputmode="numeric" id="modal-Cezi" oninput="clearPresets('modal-Cezi')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Cezi', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Cezi', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Cezi', -200, this)">-200</button></div></div>
-      </div>
-      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><input type="text" inputmode="numeric" id="modal-Bogdan" oninput="clearPresets('modal-Bogdan')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Bogdan', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Bogdan', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Bogdan', -200, this)">-200</button></div></div>
-      </div>
-      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><input type="text" inputmode="numeric" id="modal-Mihai" oninput="clearPresets('modal-Mihai')"><div class="preset-pills"><button type="button" class="preset" onclick="setPreset('modal-Mihai', -100, this)">-100</button><button type="button" class="preset" onclick="setPreset('modal-Mihai', -50, this)">-50</button><button type="button" class="preset" onclick="setPreset('modal-Mihai', -200, this)">-200</button></div></div>
-      </div>
+      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Ana" placeholder="0" oninput="onScoreInput('modal-Ana')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Ana', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Ana-atu" onclick="toggleMod('modal-Ana', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Ana-2x" onclick="toggleMod('modal-Ana', '2x')">2×</button></div><div class="score-result" id="modal-Ana-result"></div></div></div>
+      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Cezi" placeholder="0" oninput="onScoreInput('modal-Cezi')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Cezi', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Cezi-atu" onclick="toggleMod('modal-Cezi', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Cezi-2x" onclick="toggleMod('modal-Cezi', '2x')">2×</button></div><div class="score-result" id="modal-Cezi-result"></div></div></div>
+      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Bogdan" placeholder="0" oninput="onScoreInput('modal-Bogdan')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Bogdan', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Bogdan-atu" onclick="toggleMod('modal-Bogdan', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Bogdan-2x" onclick="toggleMod('modal-Bogdan', '2x')">2×</button></div><div class="score-result" id="modal-Bogdan-result"></div></div></div>
+      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Mihai" placeholder="0" oninput="onScoreInput('modal-Mihai')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Mihai', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Mihai-atu" onclick="toggleMod('modal-Mihai', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Mihai-2x" onclick="toggleMod('modal-Mihai', '2x')">2×</button></div><div class="score-result" id="modal-Mihai-result"></div></div></div>
     </div>
 
     <div class="modal-actions">
@@ -894,7 +923,6 @@ function openModal(rowIndex, gameNum) {
     }
   });
 
-  resetFieldPresets('modal-');
   document.getElementById('modal-status').textContent = '';
   document.getElementById('modal-status').className = 'modal-status';
   document.getElementById('modal-save').disabled = false;
@@ -919,10 +947,7 @@ async function saveEdit() {
 
   const dateVal = document.getElementById('modal-date').value; // YYYY-MM-DD
   const scores = {};
-  PLAYERS.forEach(p => {
-    const raw = document.getElementById('modal-' + p).value;
-    scores[p] = raw === '' ? 0 : parseFloat(raw);
-  });
+  PLAYERS.forEach(p => { scores[p] = computeFinal('modal-' + p); });
 
   saveBtn.disabled = true;
   deleteBtn.disabled = true;
@@ -983,10 +1008,7 @@ async function submitScore() {
   const btn = document.getElementById('submit-btn');
   const status = document.getElementById('status');
   const scores = {};
-  PLAYERS.forEach(p => {
-    const raw = document.getElementById('score-' + p).value;
-    scores[p] = raw === '' ? 0 : parseFloat(raw);
-  });
+  PLAYERS.forEach(p => { scores[p] = computeFinal('score-' + p); });
 
   const today = new Date().toISOString().slice(0, 10);
   btn.disabled = true;
@@ -999,8 +1021,7 @@ async function submitScore() {
       body: JSON.stringify({ action: 'addScore', date: today, scores }),
       headers: { 'Content-Type': 'text/plain' }
     });
-    PLAYERS.forEach(p => { document.getElementById('score-' + p).value = ''; });
-    resetFieldPresets('score-');
+    resetControls('score-');
     status.className = 'status-msg ok';
     status.textContent = '✓ Saved!';
     await loadData();
@@ -1014,60 +1035,85 @@ async function submitScore() {
 }
 
 
-function toggleSign(inputId, btnId) {
-  const input = document.getElementById(inputId);
-  const btn   = document.getElementById(btnId);
-  const val   = input.value.trim();
-
-  if (val === '' || val === '0') return; // nothing to negate
-
-  if (val.startsWith('-')) {
-    input.value = val.slice(1);
-    btn.classList.remove('negative');
-  } else {
-    input.value = '-' + val;
-    btn.classList.add('negative');
-  }
-}
-
 // Keep sign button state in sync when user types manually
-function syncSignBtn(inputId, btnId) {
-  const input = document.getElementById(inputId);
-  const btn   = document.getElementById(btnId);
-  if (input.value.trim().startsWith('-')) {
-    btn.classList.add('negative');
-  } else {
-    btn.classList.remove('negative');
-  }
+
+
+function computeFinal(pid) {
+  const raw  = parseFloat(document.getElementById(pid).value) || 0;
+  const atu  = document.getElementById(pid + '-atu').classList.contains('active');
+  const twoX = document.getElementById(pid + '-2x').classList.contains('active');
+  let val = raw;
+  if (atu)  val += 50;
+  if (twoX) val *= 2;
+  return val;
 }
 
+function updateResult(pid) {
+  const el   = document.getElementById(pid + '-result');
+  if (!el) return;
+  const raw  = document.getElementById(pid).value.trim();
+  const atu  = document.getElementById(pid + '-atu').classList.contains('active');
+  const twoX = document.getElementById(pid + '-2x').classList.contains('active');
+  if (!raw && !atu && !twoX) { el.textContent = ''; el.className = 'score-result'; return; }
+  const final = computeFinal(pid);
+  const sign  = final > 0 ? '+' : '';
+  el.textContent = '= ' + sign + final;
+  el.className   = 'score-result ' + (final > 0 ? 'positive' : final < 0 ? 'negative' : '');
+}
 
-function setPreset(inputId, value, btn) {
-  const input = document.getElementById(inputId);
-  // If this preset is already active, deactivate it
-  const siblings = btn.closest('.preset-pills').querySelectorAll('.preset');
+function setPreset(pid, value, btn) {
+  const row = btn.closest('.pills-row');
   const wasActive = btn.classList.contains('active');
-  siblings.forEach(b => b.classList.remove('active'));
-  if (wasActive) {
-    input.value = '';
-  } else {
-    input.value = value;
-    btn.classList.add('active');
-  }
+  row.querySelectorAll('.pill-neg').forEach(b => b.classList.remove('active'));
+  document.getElementById(pid).value = wasActive ? '' : value;
+  if (!wasActive) btn.classList.add('active');
+  updateResult(pid);
 }
 
-function clearPresets(inputId) {
-  // When user types manually, deactivate any active preset pill
-  const input = document.getElementById(inputId);
-  const wrap  = input.closest('.field, .modal-field');
-  if (!wrap) return;
-  wrap.querySelectorAll('.preset').forEach(b => b.classList.remove('active'));
+function toggleMod(pid, mod) {
+  document.getElementById(pid + '-' + mod).classList.toggle('active');
+  updateResult(pid);
 }
 
-function resetFieldPresets(prefix) {
-  PLAYERS.forEach(p => {
-    const wrap = document.getElementById(prefix + p)?.closest('.field, .modal-field');
-    if (wrap) wrap.querySelectorAll('.preset').forEach(b => b.classList.remove('active'));
+function onScoreInput(pid) {
+  const input = document.getElementById(pid);
+  const ctrl  = input.closest('.scoring-controls');
+  if (ctrl) ctrl.querySelectorAll('.pill-neg').forEach(b => b.classList.remove('active'));
+  updateResult(pid);
+}
+
+function resetControls(prefix) {
+  PLAYERS.forEach(function(p) {
+    var pid = prefix + '-' + p;
+    var input = document.getElementById(pid);
+    if (input) input.value = '';
+    ['atu','2x'].forEach(function(mod) {
+      var btn = document.getElementById(pid + '-' + mod);
+      if (btn) btn.classList.remove('active');
+    });
+    var ctrl = input && input.closest('.scoring-controls');
+    if (ctrl) ctrl.querySelectorAll('.pill-neg').forEach(function(b) { b.classList.remove('active'); });
+    updateResult(pid);
+  });
+}
+
+function syncModalControls(row) {
+  PLAYERS.forEach(function(p) {
+    var pid   = 'modal-' + p;
+    var val   = row[p] !== undefined ? row[p] : '';
+    var input = document.getElementById(pid);
+    if (input) input.value = val;
+    ['atu','2x'].forEach(function(mod) {
+      var btn = document.getElementById(pid + '-' + mod);
+      if (btn) btn.classList.remove('active');
+    });
+    var ctrl = input && input.closest('.scoring-controls');
+    if (ctrl) {
+      ctrl.querySelectorAll('.pill-neg').forEach(function(b) {
+        b.classList.toggle('active', parseFloat(b.dataset.value) === parseFloat(val));
+      });
+    }
+    updateResult(pid);
   });
 }
 
