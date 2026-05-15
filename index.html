@@ -1230,7 +1230,7 @@ function onScoreInput(pid) {
 
 function resetControls(prefix) {
   PLAYERS.forEach(function(p) {
-    var pid = prefix + '-' + p;
+    var pid = prefix + p;
     var input = document.getElementById(pid);
     if (input) input.value = '';
     ['atu','2x'].forEach(function(mod) {
