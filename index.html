@@ -564,6 +564,65 @@
     100% { content: '...'; }
   }
 
+
+  /* WINNER PILL */
+  .pill-winner {
+    background: var(--surface2);
+    border: 1px solid #f0c04055;
+    border-radius: 8px;
+    color: #f0c04099;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .pill-winner:hover  { border-color: #f0c040; color: #f0c040; }
+  .pill-winner.active {
+    background: #f0c04022;
+    border-color: #f0c040;
+    color: #f0c040;
+  }
+
+  /* WINNER ROW HIGHLIGHT IN TABLE */
+  tbody tr.winner-row td.winner-cell {
+    background: #f0c04012;
+    color: #f0c040 !important;
+  }
+
+  /* CHART VIEW TOGGLE */
+  .view-toggle {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .toggle-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 5px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  .toggle-btn:hover { border-color: var(--accent); color: var(--text); }
+  .toggle-btn.active { background: var(--accent); border-color: var(--accent); color: #0e0e10; }
+
+  /* WINS BAR CHART WRAP */
+  #wins-chart-wrap {
+    display: none;
+  }
+
   .fade-in { animation: fadeIn 0.4s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 </style>
@@ -601,11 +660,22 @@
         </div>
       </div>
     </div>
-    <div class="chart-hint" id="chart-hint">Click a player name in the legend to show or hide their line.</div>
-    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    <div class="view-toggle">
+      <button class="toggle-btn active" id="toggle-points" onclick="setChartView('points', this)">Points</button>
+      <button class="toggle-btn" id="toggle-wins" onclick="setChartView('wins', this)">Wins</button>
+    </div>
+    <div id="points-chart-wrap">
+      <div class="chart-hint" id="chart-hint">Click a player name in the legend to show or hide their line.</div>
+      <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    </div>
+    <div id="wins-chart-wrap">
+      <div class="chart-hint">Total wins per player across the selected window.</div>
+      <div class="chart-wrap"><canvas id="chart-wins"></canvas></div>
+    </div>
     <div id="bar-chart-wrap" style="display:none">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--accent);margin:24px 0 14px">Points in window</div>
       <div class="chart-wrap"><canvas id="chart-bar"></canvas></div>
+    </div>
     </div>
   </div>
 
@@ -645,10 +715,10 @@
     <div class="modal-subtitle">Today's date will be saved automatically</div>
 
     <div class="modal-scores">
-      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Ana" placeholder="0" oninput="onScoreInput('new-Ana')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Ana', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Ana-atu" onclick="toggleMod('new-Ana', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Ana-2x" onclick="toggleMod('new-Ana', '2x')">2×</button></div><div class="score-result" id="new-Ana-result"></div></div></div>
-      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Cezi" placeholder="0" oninput="onScoreInput('new-Cezi')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Cezi', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Cezi-atu" onclick="toggleMod('new-Cezi', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Cezi-2x" onclick="toggleMod('new-Cezi', '2x')">2×</button></div><div class="score-result" id="new-Cezi-result"></div></div></div>
-      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Bogdan" placeholder="0" oninput="onScoreInput('new-Bogdan')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Bogdan', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Bogdan-atu" onclick="toggleMod('new-Bogdan', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Bogdan-2x" onclick="toggleMod('new-Bogdan', '2x')">2×</button></div><div class="score-result" id="new-Bogdan-result"></div></div></div>
-      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Mihai" placeholder="0" oninput="onScoreInput('new-Mihai')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Mihai', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Mihai-atu" onclick="toggleMod('new-Mihai', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Mihai-2x" onclick="toggleMod('new-Mihai', '2x')">2×</button></div><div class="score-result" id="new-Mihai-result"></div></div></div>
+      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Ana" placeholder="0" oninput="onScoreInput('new-Ana')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Ana', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Ana-atu" onclick="toggleMod('new-Ana', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Ana-2x" onclick="toggleMod('new-Ana', '2x')">2×</button><button type="button" class="pill-winner" id="new-Ana-winner" onclick="toggleWinner('new', 'Ana')">👑 Winner</button></div><div class="score-result" id="new-Ana-result"></div></div></div>
+      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Cezi" placeholder="0" oninput="onScoreInput('new-Cezi')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Cezi', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Cezi-atu" onclick="toggleMod('new-Cezi', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Cezi-2x" onclick="toggleMod('new-Cezi', '2x')">2×</button><button type="button" class="pill-winner" id="new-Cezi-winner" onclick="toggleWinner('new', 'Cezi')">👑 Winner</button></div><div class="score-result" id="new-Cezi-result"></div></div></div>
+      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Bogdan" placeholder="0" oninput="onScoreInput('new-Bogdan')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Bogdan', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Bogdan-atu" onclick="toggleMod('new-Bogdan', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Bogdan-2x" onclick="toggleMod('new-Bogdan', '2x')">2×</button><button type="button" class="pill-winner" id="new-Bogdan-winner" onclick="toggleWinner('new', 'Bogdan')">👑 Winner</button></div><div class="score-result" id="new-Bogdan-result"></div></div></div>
+      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="new-Mihai" placeholder="0" oninput="onScoreInput('new-Mihai')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('new-Mihai', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="new-Mihai-atu" onclick="toggleMod('new-Mihai', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="new-Mihai-2x" onclick="toggleMod('new-Mihai', '2x')">2×</button><button type="button" class="pill-winner" id="new-Mihai-winner" onclick="toggleWinner('new', 'Mihai')">👑 Winner</button></div><div class="score-result" id="new-Mihai-result"></div></div></div>
     </div>
 
     <div class="modal-actions">
@@ -671,10 +741,10 @@
     </div>
 
     <div class="modal-scores">
-      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Ana" placeholder="0" oninput="onScoreInput('modal-Ana')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Ana', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Ana-atu" onclick="toggleMod('modal-Ana', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Ana-2x" onclick="toggleMod('modal-Ana', '2x')">2×</button></div><div class="score-result" id="modal-Ana-result"></div></div></div>
-      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Cezi" placeholder="0" oninput="onScoreInput('modal-Cezi')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Cezi', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Cezi-atu" onclick="toggleMod('modal-Cezi', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Cezi-2x" onclick="toggleMod('modal-Cezi', '2x')">2×</button></div><div class="score-result" id="modal-Cezi-result"></div></div></div>
-      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Bogdan" placeholder="0" oninput="onScoreInput('modal-Bogdan')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Bogdan', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Bogdan-atu" onclick="toggleMod('modal-Bogdan', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Bogdan-2x" onclick="toggleMod('modal-Bogdan', '2x')">2×</button></div><div class="score-result" id="modal-Bogdan-result"></div></div></div>
-      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Mihai" placeholder="0" oninput="onScoreInput('modal-Mihai')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Mihai', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Mihai-atu" onclick="toggleMod('modal-Mihai', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Mihai-2x" onclick="toggleMod('modal-Mihai', '2x')">2×</button></div><div class="score-result" id="modal-Mihai-result"></div></div></div>
+      <div class="modal-field ana"><label style="color:var(--ana)">Ana</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Ana" placeholder="0" oninput="onScoreInput('modal-Ana')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Ana', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Ana-atu" onclick="toggleMod('modal-Ana', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Ana-2x" onclick="toggleMod('modal-Ana', '2x')">2×</button><button type="button" class="pill-winner" id="modal-Ana-winner" onclick="toggleWinner('modal', 'Ana')">👑 Winner</button></div><div class="score-result" id="modal-Ana-result"></div></div></div>
+      <div class="modal-field cezi"><label style="color:var(--cezi)">Cezi</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Cezi" placeholder="0" oninput="onScoreInput('modal-Cezi')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Cezi', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Cezi-atu" onclick="toggleMod('modal-Cezi', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Cezi-2x" onclick="toggleMod('modal-Cezi', '2x')">2×</button><button type="button" class="pill-winner" id="modal-Cezi-winner" onclick="toggleWinner('modal', 'Cezi')">👑 Winner</button></div><div class="score-result" id="modal-Cezi-result"></div></div></div>
+      <div class="modal-field bogdan"><label style="color:var(--bogdan)">Bogdan</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Bogdan" placeholder="0" oninput="onScoreInput('modal-Bogdan')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Bogdan', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Bogdan-atu" onclick="toggleMod('modal-Bogdan', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Bogdan-2x" onclick="toggleMod('modal-Bogdan', '2x')">2×</button><button type="button" class="pill-winner" id="modal-Bogdan-winner" onclick="toggleWinner('modal', 'Bogdan')">👑 Winner</button></div><div class="score-result" id="modal-Bogdan-result"></div></div></div>
+      <div class="modal-field mihai"><label style="color:var(--mihai)">Mihai</label><div class="scoring-controls"><input type="text" inputmode="numeric" id="modal-Mihai" placeholder="0" oninput="onScoreInput('modal-Mihai')"><div class="pills-row"><button type="button" class="pill-neg" data-value="-100" onclick="setPreset('modal-Mihai', -100, this)">-100</button></div><div class="pills-row"><button type="button" class="pill-pos" id="modal-Mihai-atu" onclick="toggleMod('modal-Mihai', 'atu')">Atu +50</button><button type="button" class="pill-pos" id="modal-Mihai-2x" onclick="toggleMod('modal-Mihai', '2x')">2×</button><button type="button" class="pill-winner" id="modal-Mihai-winner" onclick="toggleWinner('modal', 'Mihai')">👑 Winner</button></div><div class="score-result" id="modal-Mihai-result"></div></div></div>
     </div>
 
     <div class="modal-actions">
@@ -698,6 +768,8 @@ let chartInstance = null;
 let barChartInstance = null;
 let activeFilter = 20;
 let editingRow = null; // { rowIndex, gameNum }
+let chartView = 'points';
+let winsChartInstance = null;
 
 // ─── DATE HELPERS ─────────────────────────────────────────────────────────────
 
@@ -840,11 +912,10 @@ function renderVibes() {
 function applyCustomFilter() {
   const val = parseInt(document.getElementById('custom-filter-input').value);
   if (!val || val < 1) return;
-  // Deactivate all standard pills
   document.querySelectorAll('#filter-pills-row .pill').forEach(p => p.classList.remove('active'));
   document.getElementById('custom-filter-btn').classList.add('active');
   activeFilter = val;
-  renderChart();
+  if (chartView === 'wins') renderWinsChart(); else renderChart();
 }
 
 function setFilter(n, btn) {
@@ -852,7 +923,7 @@ function setFilter(n, btn) {
   document.querySelectorAll('#filter-pills-row .pill').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('custom-filter-input').value = '';
-  renderChart();
+  if (chartView === 'wins') renderWinsChart(); else renderChart();
 }
 
 function sharedLegendOpts() {
@@ -1014,15 +1085,17 @@ function renderHistory() {
 
   const gameRows = [...allData].reverse().map((row, i) => {
     const gameNum = allData.length - i;
-    const date = formatDateTable(row['Date']);
+    const date    = formatDateTable(row['Date']);
     const rowIndex = row['_rowIndex'];
-    return `<tr>
+    const winner  = String(row['Winner'] || '').trim();
+    return `<tr class="${winner ? 'winner-row' : ''}">
       <td style="color:var(--muted)">${gameNum}</td>
       <td>${date}</td>
       ${PLAYERS.map(p => {
         const v = parseFloat(row[p]);
         const display = isNaN(v) ? '—' : (v > 0 ? '+' + v : v);
-        return `<td class="${isNaN(v) ? '' : scoreClass(v)}">${display}</td>`;
+        const isWinner = winner === p;
+        return `<td class="${isNaN(v) ? '' : scoreClass(v)}${isWinner ? ' winner-cell' : ''}">${isWinner ? '👑 ' : ''}${display}</td>`;
       }).join('')}
       <td><button class="btn-edit" onclick="openModal(${rowIndex}, ${gameNum})">✏️</button></td>
     </tr>`;
@@ -1088,7 +1161,7 @@ async function saveEdit() {
   try {
     await fetch(SCRIPT_URL, {
       method: 'POST',
-      body: JSON.stringify({ action: 'updateScore', rowIndex: editingRow.rowIndex, date: dateVal, scores }),
+      body: JSON.stringify({ action: 'updateScore', rowIndex: editingRow.rowIndex, date: dateVal, scores, winner }),
       headers: { 'Content-Type': 'text/plain' }
     });
     statusEl.className = 'modal-status ok';
@@ -1156,6 +1229,7 @@ async function submitScore() {
   const statusEl = document.getElementById('add-modal-status');
   const scores   = {};
   PLAYERS.forEach(p => { scores[p] = computeFinal('new-' + p); });
+  const winner = getWinner('new');
 
   const today = new Date().toISOString().slice(0, 10);
   btn.disabled = true;
@@ -1165,7 +1239,7 @@ async function submitScore() {
   try {
     await fetch(SCRIPT_URL, {
       method: 'POST',
-      body: JSON.stringify({ action: 'addScore', date: today, scores }),
+      body: JSON.stringify({ action: 'addScore', date: today, scores, winner }),
       headers: { 'Content-Type': 'text/plain' }
     });
     statusEl.className = 'modal-status ok';
@@ -1184,23 +1258,119 @@ async function submitScore() {
 // Keep sign button state in sync when user types manually
 
 
+
+// ─── WINNER HELPERS ───────────────────────────────────────────────────────────
+
+function toggleWinner(prefix, player) {
+  const btnId  = prefix + '-' + player + '-winner';
+  const btn    = document.getElementById(btnId);
+  const isActive = btn.classList.contains('active');
+
+  // Deactivate all winner buttons in this modal
+  PLAYERS.forEach(p => {
+    const b = document.getElementById(prefix + '-' + p + '-winner');
+    if (b) b.classList.remove('active');
+  });
+
+  // If it wasn't active, activate this one and add +100
+  if (!isActive) {
+    btn.classList.add('active');
+  }
+}
+
+function getWinner(prefix) {
+  for (const p of PLAYERS) {
+    const btn = document.getElementById(prefix + '-' + p + '-winner');
+    if (btn && btn.classList.contains('active')) return p;
+  }
+  return '';
+}
+
+function setChartView(view, btn) {
+  chartView = view;
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const pointsWrap = document.getElementById('points-chart-wrap');
+  const winsWrap   = document.getElementById('wins-chart-wrap');
+  if (view === 'points') {
+    pointsWrap.style.display = 'block';
+    winsWrap.style.display   = 'none';
+    renderChart();
+  } else {
+    pointsWrap.style.display = 'none';
+    winsWrap.style.display   = 'block';
+    // Hide filter pills — wins chart uses same filter
+    renderWinsChart();
+  }
+}
+
+function renderWinsChart() {
+  const slice = activeFilter === null ? allData : allData.slice(-activeFilter);
+  const winCounts = PLAYERS.map(p =>
+    slice.filter(row => String(row['Winner']).trim() === p).length
+  );
+
+  const ctx = document.getElementById('chart-wins').getContext('2d');
+  if (winsChartInstance) winsChartInstance.destroy();
+
+  winsChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: PLAYERS,
+      datasets: [{
+        label: 'Wins',
+        data: winCounts,
+        backgroundColor: PLAYERS.map(p => COLORS[p] + 'bb'),
+        borderColor:     PLAYERS.map(p => COLORS[p]),
+        borderWidth: 2,
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#18181c', borderColor: '#2e2e38', borderWidth: 1,
+          titleColor: '#7a7a8a', bodyColor: '#f0efe8', padding: 14,
+          callbacks: {
+            label(ctx) { return '  ' + ctx.parsed.y + ' win' + (ctx.parsed.y !== 1 ? 's' : ''); }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#7a7a8a', font: { size: 13 } }, grid: { display: false } },
+        y: {
+          ticks: { color: '#7a7a8a', font: { size: 11 }, precision: 0 },
+          grid: { color: '#2e2e38' },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
 function computeFinal(pid) {
-  const raw  = parseFloat(document.getElementById(pid).value) || 0;
-  const atu  = document.getElementById(pid + '-atu').classList.contains('active');
-  const twoX = document.getElementById(pid + '-2x').classList.contains('active');
+  const raw    = parseFloat(document.getElementById(pid).value) || 0;
+  const atu    = document.getElementById(pid + '-atu') && document.getElementById(pid + '-atu').classList.contains('active');
+  const twoX   = document.getElementById(pid + '-2x') && document.getElementById(pid + '-2x').classList.contains('active');
+  const winner = document.getElementById(pid + '-winner') && document.getElementById(pid + '-winner').classList.contains('active');
   let val = raw;
-  if (atu)  val += 50;
-  if (twoX) val *= 2;
+  if (atu)    val += 50;
+  if (winner) val += 100;
+  if (twoX)   val *= 2;
   return val;
 }
 
 function updateResult(pid) {
-  const el   = document.getElementById(pid + '-result');
+  const el     = document.getElementById(pid + '-result');
   if (!el) return;
-  const raw  = document.getElementById(pid).value.trim();
-  const atu  = document.getElementById(pid + '-atu').classList.contains('active');
-  const twoX = document.getElementById(pid + '-2x').classList.contains('active');
-  if (!raw && !atu && !twoX) { el.textContent = ''; el.className = 'score-result'; return; }
+  const raw    = document.getElementById(pid) ? document.getElementById(pid).value.trim() : '';
+  const atu    = document.getElementById(pid + '-atu') && document.getElementById(pid + '-atu').classList.contains('active');
+  const twoX   = document.getElementById(pid + '-2x') && document.getElementById(pid + '-2x').classList.contains('active');
+  const winner = document.getElementById(pid + '-winner') && document.getElementById(pid + '-winner').classList.contains('active');
+  if (!raw && !atu && !twoX && !winner) { el.textContent = ''; el.className = 'score-result'; return; }
   const final = computeFinal(pid);
   const sign  = final > 0 ? '+' : '';
   el.textContent = '= ' + sign + final;
@@ -1233,7 +1403,7 @@ function resetControls(prefix) {
     var pid = prefix + p;
     var input = document.getElementById(pid);
     if (input) input.value = '';
-    ['atu','2x'].forEach(function(mod) {
+    ['atu','2x','winner'].forEach(function(mod) {
       var btn = document.getElementById(pid + '-' + mod);
       if (btn) btn.classList.remove('active');
     });
@@ -1244,6 +1414,7 @@ function resetControls(prefix) {
 }
 
 function syncModalControls(row) {
+  const winner = String(row['Winner'] || '').trim();
   PLAYERS.forEach(function(p) {
     var pid   = 'modal-' + p;
     var val   = row[p] !== undefined ? row[p] : '';
@@ -1253,6 +1424,9 @@ function syncModalControls(row) {
       var btn = document.getElementById(pid + '-' + mod);
       if (btn) btn.classList.remove('active');
     });
+    // Restore winner button
+    var winBtn = document.getElementById(pid + '-winner');
+    if (winBtn) winBtn.classList.toggle('active', p === winner);
     var ctrl = input && input.closest('.scoring-controls');
     if (ctrl) {
       ctrl.querySelectorAll('.pill-neg').forEach(function(b) {
